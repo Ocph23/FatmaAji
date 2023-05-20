@@ -1,0 +1,33 @@
+POST  https://localhost:7113/api/account/register 
+Content-Type: application/json
+
+{
+    "Name":"Ocph23",
+    "Email":"ocph23.test@gmail.com",
+    "Password":"ocph23.test@gmail.com"
+}
+
+##########
+
+POST  https://localhost:7113/api/account/login 
+Content-Type: application/json
+
+{
+    "UserName":"ocph23.test@gmail.com",
+    "Password":"Sony@77"
+}
+
+
+
+
+#####
+
+
+
+GET https://localhost:7113/api/account
+Authorization : bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNkYzQ5ZmE0LTcwYmEtNGI5MC1iMzQ3LTQ3YzIxMTY5YjM0ZSIsIm5hbWUiOiJBZG1pbiIsInN1YiI6Im9jcGgyMy50ZXN0QGdtYWlsLmNvbSIsImVtYWlsIjoib2NwaDIzLnRlc3RAZ21haWwuY29tIiwianRpIjoiNjY2NzcyMzEtNGJmMi00ZTJlLWE5MTgtYmI3NzZmNTg1NjUxIiwibmJmIjoxNjg0NTU1NjQ4LCJleHAiOjE2ODQ1NTU5NDgsImlhdCI6MTY4NDU1NTY0OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyJ9.MJyEUeAADXqtFMdk1fsLkDWr1OerWJD48qSplvvrafpj7cJGOBlfITW97Sq877jtbv9oVUyLRc8D3elVGucMXw
+
+
+#####
+
+
