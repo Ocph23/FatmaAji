@@ -26,19 +26,16 @@ namespace WebApp.Models
         public Periodik? Periodik{ get; set; } = new();
         public OrangTua? Ayah{ get; set; }= new OrangTua();
         public OrangTua? Ibu{ get; set; }= new OrangTua();
-
+        ICollection<ItemPersyaratan> Persyaratan { get; set; } = new List<ItemPersyaratan>();
         public  TempatTinggal TempatTinggal { get; set; }
         public string? TempatTinggalLain { get; set; }
-
         public ModaTransportasi ModaTransportasi { get; set; }
         public string? ModaTransportasiLain { get; set; }
-
         public string? KKS { get; set; }
         public int AnakKe { get; set; } = 1;
         public string? KPS { get; set; }
         public string? PIP { get; set; }
         public bool TK { get; set; }
-
         public string UserId { get; set; }
 
         internal static CalonPesertaDidik Create(string userId)

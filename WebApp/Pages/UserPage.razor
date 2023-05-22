@@ -1,0 +1,77 @@
+﻿@page "/users"
+@attribute [Authorize(Roles = "Admin")]
+
+@inject DialogService dialogService
+@inject NotificationService NotificationService
+@inject ApplicationDbContext dbcontext
+<h3>Data User</h3>
+
+
+<RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false"
+                FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@datas"
+                TItem="UserModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="UserModel" Property="Name" Title="User" />
+        <RadzenDataGridColumn TItem="UserModel" Property="Calon.Nama" Title="Calon Siswa" />
+        <RadzenDataGridColumn TItem="UserModel" Title="Aktif" Width="120px">
+            <Template>
+                <RadzenCheckBox Value="@context.Active"></RadzenCheckBox>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="UserModel" Width="80px">
+            <Template>
+                <RadzenButton Icon="edit" Click=@(()=> Edit(context))  ButtonStyle="ButtonStyle.Warning" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+
+
+    ICollection<UserModel> datas;
+    RadzenDataGrid<UserModel> dg;
+    protected override Task OnInitializedAsync()
+    {
+        var source = from a in dbcontext.Users
+                     join b in dbcontext.CalonPesertaDidik on a.Id equals b.UserId
+                     select new UserModel { UserId = a.Id, Name = a.Name, Active = a.EmailConfirmed, Calon = b };
+        datas = source.ToList();
+        return base.OnInitializedAsync();
+    }
+
+
+    async Task Edit(UserModel model)
+    {
+        var result = await dialogService.OpenAsync<UserDialog>($"User",
+              new Dictionary<string, object>() { { "Model", model} },
+              new DialogOptions() { Width = "700px", Resizable = true, Draggable = true });
+        var data = result as Persyaratan;
+        if (data != null)
+        {
+            await dg.Reload();
+        }
+
+    }
+    async Task Delete(UserModel model)
+    {
+        var dialog = await dialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (dialog!=null && dialog.Value)
+        {
+            //var deleted = await persyaratanService.Delete(model.Id);
+            //if(deleted)
+            //{
+            //    datas.Remove(model);
+            //    NotificationService.Notify(new NotificationMessage { Summary = "Succes", Detail = "Data Berhasil Dihapus", Severity = NotificationSeverity.Success });
+            //   await dg.Reload();
+            //}
+        }
+    }
+
+   
+}
+
+
+
+

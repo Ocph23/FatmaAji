@@ -124,11 +124,50 @@ namespace WebApp.Migrations
                     NIK = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TahunLahir = table.Column<int>(type: "int", nullable: false),
-                    Pendidikan = table.Column<int>(type: "int", nullable: false)
+                    Pendidikan = table.Column<int>(type: "int", nullable: false),
+                    Pekerjaan = table.Column<int>(type: "int", nullable: false),
+                    Penghasilan = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrangTua", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Periodik",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Tinggi = table.Column<double>(type: "double", nullable: false),
+                    LingkarKepala = table.Column<double>(type: "double", nullable: false),
+                    Berat = table.Column<double>(type: "double", nullable: false),
+                    JarakKeSekolah = table.Column<double>(type: "double", nullable: false),
+                    WaktuTempuh = table.Column<TimeSpan>(type: "time(6)", nullable: false),
+                    JumlahSaudara = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Periodik", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Persyaratan",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsUpload = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Persyaratan", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -265,10 +304,10 @@ namespace WebApp.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nama = table.Column<string>(type: "longtext", nullable: false)
+                    Nama = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     JenisKelamin = table.Column<int>(type: "int", nullable: false),
-                    TempatLahir = table.Column<string>(type: "longtext", nullable: false)
+                    TempatLahir = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TanggalLahir = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Kepercayaan = table.Column<int>(type: "int", nullable: false),
@@ -277,6 +316,7 @@ namespace WebApp.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AlamatId = table.Column<int>(type: "int", nullable: true),
                     KontakId = table.Column<int>(type: "int", nullable: true),
+                    PeriodikId = table.Column<int>(type: "int", nullable: true),
                     AyahId = table.Column<int>(type: "int", nullable: true),
                     IbuId = table.Column<int>(type: "int", nullable: true),
                     TempatTinggal = table.Column<int>(type: "int", nullable: false),
@@ -292,6 +332,7 @@ namespace WebApp.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PIP = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    TK = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     UserId = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -317,6 +358,11 @@ namespace WebApp.Migrations
                         name: "FK_CalonPesertaDidik_OrangTua_IbuId",
                         column: x => x.IbuId,
                         principalTable: "OrangTua",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CalonPesertaDidik_Periodik_PeriodikId",
+                        column: x => x.PeriodikId,
+                        principalTable: "Periodik",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -377,6 +423,11 @@ namespace WebApp.Migrations
                 name: "IX_CalonPesertaDidik_KontakId",
                 table: "CalonPesertaDidik",
                 column: "KontakId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CalonPesertaDidik_PeriodikId",
+                table: "CalonPesertaDidik",
+                column: "PeriodikId");
         }
 
         /// <inheritdoc />
@@ -401,6 +452,9 @@ namespace WebApp.Migrations
                 name: "CalonPesertaDidik");
 
             migrationBuilder.DropTable(
+                name: "Persyaratan");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -414,6 +468,9 @@ namespace WebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrangTua");
+
+            migrationBuilder.DropTable(
+                name: "Periodik");
         }
     }
 }

@@ -1,0 +1,87 @@
+﻿@inject DialogService dialogService
+@inject IPersyaratanService persyaratanService
+@inject NotificationService NotificationService
+@inject ApplicationDbContext dbcontext
+
+<RadzenTemplateForm TItem="UserModel" Data=@Model Submit=@OnSubmit InvalidSubmit=@OnInvalidSubmit>
+    <RadzenFieldset Text="Form">
+        <RadzenStack Gap="1rem">
+            <RadzenRow AlignItems="AlignItems.Center">
+                <RadzenColumn Size="12" SizeMD="3">
+                    <RadzenLabel Text="User" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="9">
+                    <RadzenTextBox @bind-Value="Model.Name" ReadOnly Placeholder="Nama Persyaratan" Style="width: 100%;" Name="namaPersyaratan" />
+                    <RadzenLengthValidator Component="namaPersyaratan" Min="1" Text="Tidak Boleh Kosong" Popup=true Style="position:relative" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow AlignItems="AlignItems.Center">
+                <RadzenColumn Size="12" SizeMD="3">
+                    <RadzenLabel Text="Nama Calon Siswa" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="9">
+                    <RadzenTextBox @bind-Value="Model.Calon.Nama" ReadOnly Placeholder="Keterangan" Style="width: 100%;" Name="keterangan" />
+                    <RadzenLengthValidator Component="keterangan" Min="1" Text="Tidak Boleh Kosong" Popup=true Style="position: relative" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow AlignItems="AlignItems.Center">
+                <RadzenColumn Size="12" SizeMD="3">
+                    <RadzenLabel Text="Aktif" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="9">
+                    <RadzenCheckBox TValue="bool" @bind-Value="Model.Active" Name="Aktif" />
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenStack>
+    </RadzenFieldset>
+    <div style="text-align:right; margin-top:20px">
+        <RadzenButton Text="Simpan" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Success" />
+        <RadzenButton Click=@(()=> dialogService.Close(false)) Text="Batal" ButtonStyle="ButtonStyle.Warning" />
+    </div>
+
+</RadzenTemplateForm>
+
+@code {
+
+    [Parameter]
+    public UserModel Model { get; set; }
+
+    async Task OnSubmit(UserModel model)
+    {
+        try
+        {
+
+            var user = dbcontext.Users.SingleOrDefault(x => x.Id == model.UserId);
+            if (user is not null)
+            {
+                user.EmailConfirmed = model.Active;
+                await dbcontext.SaveChangesAsync();
+                NotificationService.Notify(new NotificationMessage { Summary = "Success", Detail = "Berhasil !", Severity = NotificationSeverity.Success, Duration = 3000 });
+                dialogService.Close(Model);
+            }
+            else
+            {
+                throw new SystemException("Gagal !");    
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage { Summary = "Error", Detail = ex.Message, Severity = NotificationSeverity.Error, Duration = 3000 });
+        }
+    }
+
+    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
+    {
+
+    }
+
+    async Task SaveAction()
+    {
+
+
+    }
+
+}

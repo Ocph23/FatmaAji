@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using ShareModel;
 using System.Reflection.Emit;
 using WebApp.Models;
 
@@ -15,6 +16,7 @@ namespace WebApp.Data
         }
 
         public DbSet<CalonPesertaDidik> CalonPesertaDidik { get; set; }
+        public DbSet<Persyaratan> Persyaratan{ get; set; }
 
      
     }

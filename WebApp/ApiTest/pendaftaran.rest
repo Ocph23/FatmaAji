@@ -1,5 +1,5 @@
 @url = https://localhost:7113/api
-@token = bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJlNGUyNmM2LTA0ODItNGFiZi04OGQzLTA2ZTVmMjRhOTNlMSIsIm5hbWUiOiJPY3BoMjMiLCJzdWIiOiJvY3BoMjNAZ21haWwuY29tIiwiZW1haWwiOiJvY3BoMjNAZ21haWwuY29tIiwianRpIjoiMGZkMTY3NzktYTBmOC00Y2U5LTk4ZDYtOTVlNjE3NmYzZWE3IiwibmJmIjoxNjg0NzE5Mjg3LCJleHAiOjE2ODUzMjQwODcsImlhdCI6MTY4NDcxOTI4NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyJ9.pSlpZA1dR4PJhAu4hlArAQ45qUU3C_aZTzZAR0x6CX8N2rT-d2ANzZVGzlEL4TDMdV5PmVQmMYel_S4PK9qIYQ
+@token = bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlM2YwZmFhLTEzYjQtNDlhZi04MTQyLWE0ZDBiMDdkODU5NiIsIm5hbWUiOiJPY3BoMjMiLCJzdWIiOiJvY3BoMjNAZ21haWwuY29tIiwiZW1haWwiOiJvY3BoMjNAZ21haWwuY29tIiwianRpIjoiNzViYmZkOTAtMDllZS00YjFiLWFiMGUtNjA1ZTAzNGNlNGVhIiwibmJmIjoxNjg0NzMyNDM1LCJleHAiOjE2ODUzMzcyMzUsImlhdCI6MTY4NDczMjQzNSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyJ9.G7g6BLfYWR4baJMjU6U7VQpnm-1IDCNfbJZeLeR-W3Nw3B_p449Zuxd6nDuYCYcj7zOagbtXhN4nz7bjL0A9Ew
 
 #####
 
@@ -14,40 +14,40 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "id": 2,
+  "id": 1,
   "nama": "Aldrich Alfa Jordain",
   "jenisKelamin": 0,
-  "tempatLahir": "Makassar",
+  "tempatLahir": "",
   "tanggalLahir": "0001-01-01T00:00:00",
   "kepercayaan": 0,
   "kewarganegaraan": 0,
   "negara": null,
   "alamat": {
     "id": 1,
-    "jalan": "Perum Permata ",
-    "rt": "",
+    "jalan": null,
+    "rt": null,
     "rw": null,
     "keluarahan": null,
     "kecamatan": null
   },
   "kontak": {
     "id": 1,
-    "telepon": "",
-    "hp": "0811481",
-    "email": "ocph23@gmail.com"
+    "telepon": null,
+    "hp": null,
+    "email": null
   },
   "periodik": {
     "id": 1,
-    "tinggi": 120,
+    "tinggi": 0,
     "lingkarKepala": 0,
-    "berat": 40,
-    "jarakKeSekolah": 10,
-    "waktuTempuh": "02:10:30",
+    "berat": 0,
+    "jarakKeSekolah": 0,
+    "waktuTempuh": "00:00:00",
     "jumlahSaudara": 0
   },
   "ayah": {
-    "id": 3,
-    "nama": "Yoseph Kungkung",
+    "id": 1,
+    "nama": null,
     "nik": null,
     "tahunLahir": 0,
     "pendidikan": 0,
@@ -55,8 +55,8 @@ Authorization: {{token}}
     "penghasilan": 0
   },
   "ibu": {
-    "id": 4,
-    "nama": "Elisabeth Hamid",
+    "id": 2,
+    "nama": null,
     "nik": null,
     "tahunLahir": 0,
     "pendidikan": 0,
@@ -71,8 +71,6 @@ Authorization: {{token}}
   "anakKe": 1,
   "kps": null,
   "pip": null,
-  "tk": true,
-  "userId": "be4e26c6-0482-4abf-88d3-06e5f24a93e1"
+  "tk": false,
+  "userId": "1e3f0faa-13b4-49af-8142-a4d0b07d8596"
 }
-
-

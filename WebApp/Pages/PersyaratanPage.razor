@@ -1,0 +1,81 @@
+﻿@page "/persyaratan"
+@attribute [Authorize(Roles = "Admin")]
+
+@inject DialogService dialogService
+@inject IPersyaratanService persyaratanService
+@inject NotificationService NotificationService
+
+<h3>Data Persyaratan</h3>
+
+
+<div style="margin-top:20px; margin-bottom:10px">
+<RadzenButton Click=@(()=> AddAction()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
+</div>
+
+
+<RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false"
+                FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@datas"
+                TItem="Persyaratan" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Persyaratan" Property="Name" Title="Nama Persyaratan" />
+        <RadzenDataGridColumn TItem="Persyaratan" Title="Dokumen" Width="100px">
+            <Template>
+                <RadzenCheckBox @bind-Value="@context.IsUpload"></RadzenCheckBox>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Persyaratan" Property="Description" Title="Keterangan" />
+        <RadzenDataGridColumn TItem="Persyaratan" Width="80px">
+            <Template>
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Warning" />
+                <RadzenButton Click=@(()=> Delete(context)) Icon="remove" ButtonStyle="ButtonStyle.Danger" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+
+
+    ICollection<Persyaratan> datas;
+    RadzenDataGrid<Persyaratan> dg;
+    protected override async Task OnInitializedAsync()
+    {
+        var source = await persyaratanService.Get();
+        datas = source.ToList();
+    }
+
+    async Task AddAction()
+    {
+        var result = await dialogService.OpenAsync<PersyaratanDialog>($"Persyaratan Baru",
+              new Dictionary<string, object>() { { "Model", new Persyaratan() } },
+              new DialogOptions() { Width = "700px", Resizable = true, Draggable = true });
+
+
+        var data = result as Persyaratan;
+        if (data != null)
+        {
+            datas.Add(data);
+           await dg.Reload();
+        }
+
+    }
+
+
+    async Task Delete(Persyaratan model)
+    {
+        var dialog = await dialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (dialog!=null && dialog.Value)
+        {
+            var deleted = await persyaratanService.Delete(model.Id);
+            if(deleted)
+            {
+                datas.Remove(model);
+                NotificationService.Notify(new NotificationMessage { Summary = "Succes", Detail = "Data Berhasil Dihapus", Severity = NotificationSeverity.Success });
+               await dg.Reload();
+            }
+        }
+    }
+
+
+}

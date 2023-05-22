@@ -11,7 +11,7 @@ using WebApp.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230520221410__initial")]
+    [Migration("20230522030733__initial")]
     partial class _initial
     {
         /// <inheritdoc />
@@ -154,6 +154,28 @@ namespace WebApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ShareModel.Persyaratan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsUpload")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Persyaratan");
+                });
+
             modelBuilder.Entity("WebApp.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -291,7 +313,6 @@ namespace WebApp.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Nama")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Negara")
@@ -300,11 +321,16 @@ namespace WebApp.Migrations
                     b.Property<string>("PIP")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("PeriodikId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TK")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("TanggalLahir")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("TempatLahir")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("TempatTinggal")
@@ -326,6 +352,8 @@ namespace WebApp.Migrations
                     b.HasIndex("IbuId");
 
                     b.HasIndex("KontakId");
+
+                    b.HasIndex("PeriodikId");
 
                     b.ToTable("CalonPesertaDidik");
                 });
@@ -362,7 +390,13 @@ namespace WebApp.Migrations
                     b.Property<string>("Nama")
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Pekerjaan")
+                        .HasColumnType("int");
+
                     b.Property<int>("Pendidikan")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Penghasilan")
                         .HasColumnType("int");
 
                     b.Property<int>("TahunLahir")
@@ -371,6 +405,35 @@ namespace WebApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OrangTua");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Periodik", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<double>("Berat")
+                        .HasColumnType("double");
+
+                    b.Property<double>("JarakKeSekolah")
+                        .HasColumnType("double");
+
+                    b.Property<int>("JumlahSaudara")
+                        .HasColumnType("int");
+
+                    b.Property<double>("LingkarKepala")
+                        .HasColumnType("double");
+
+                    b.Property<double>("Tinggi")
+                        .HasColumnType("double");
+
+                    b.Property<TimeSpan>("WaktuTempuh")
+                        .HasColumnType("time(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Periodik");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -442,6 +505,10 @@ namespace WebApp.Migrations
                         .WithMany()
                         .HasForeignKey("KontakId");
 
+                    b.HasOne("WebApp.Models.Periodik", "Periodik")
+                        .WithMany()
+                        .HasForeignKey("PeriodikId");
+
                     b.Navigation("Alamat");
 
                     b.Navigation("Ayah");
@@ -449,6 +516,8 @@ namespace WebApp.Migrations
                     b.Navigation("Ibu");
 
                     b.Navigation("Kontak");
+
+                    b.Navigation("Periodik");
                 });
 #pragma warning restore 612, 618
         }

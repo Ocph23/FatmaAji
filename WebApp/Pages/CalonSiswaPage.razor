@@ -1,0 +1,52 @@
+﻿@page "/calon"
+@attribute [Authorize(Roles = "Admin")]
+
+@inject ApplicationDbContext dbcontext
+@inject DialogService dialogService
+@inject NotificationService NotificationService
+@inject NavigationManager nav
+
+<h3>Data CalonPesertaDidik</h3>
+
+<RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false"
+                FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@datas"
+                TItem="CalonPesertaDidik" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Property="Nama" Title="Nama" />
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Title="TTL" >
+            <Template>
+                @($"{context.TempatLahir}, {context.TanggalLahir.ToString("dd/MM/yyyy")}")
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Property="Description" Title="Keterangan" />
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="80px">
+            <Template>
+                <RadzenButton Click="@(()=> nav.NavigateTo($"/calon/{context.Id}"))" Icon="details" ButtonStyle="ButtonStyle.Warning" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+
+
+    ICollection<CalonPesertaDidik> datas;
+    RadzenDataGrid<CalonPesertaDidik> dg;
+    protected override async Task OnInitializedAsync()
+    {
+        var source = dbcontext.CalonPesertaDidik.ToList();
+        datas = source.ToList();
+    }
+
+    async Task Delete(CalonPesertaDidik model)
+    {
+        var dialog = await dialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (dialog!=null && dialog.Value)
+        {
+           
+        }
+    }
+
+
+}
