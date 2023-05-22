@@ -47,7 +47,13 @@ namespace WebApp.Services
         {
             try
             {
-                var data = dbcontext.CalonPesertaDidik.FirstOrDefault(x => x.UserId == userid);
+                var data = dbcontext.CalonPesertaDidik
+                     .Include(x => x.Alamat)
+                    .Include(x => x.Periodik)
+                    .Include(x => x.Ibu)
+                    .Include(x => x.Ayah)
+                    .Include(x => x.Kontak)
+                    .FirstOrDefault(x => x.UserId == userid);
                 if (data is null)
                     data = await CreateProfile(userid);
                 return data;
@@ -69,9 +75,14 @@ namespace WebApp.Services
                     .Include(x=>x.Ibu)
                     .Include(x=>x.Ayah)
                     .Include(x=>x.Kontak)
-                    .SingleOrDefault(x => x.Id == calonPesertaDidik.Id);
+                    .FirstOrDefault(x=> x.Id == calonPesertaDidik.Id);
 
-                dbcontext.Entry(data!).CurrentValues.SetValues(calonPesertaDidik);
+                dbcontext.Entry(data).CurrentValues.SetValues(calonPesertaDidik);
+                dbcontext.Entry(data.Alamat).CurrentValues.SetValues(calonPesertaDidik.Alamat);
+                dbcontext.Entry(data.Ayah).CurrentValues.SetValues(calonPesertaDidik.Ayah);
+                dbcontext.Entry(data.Ibu).CurrentValues.SetValues(calonPesertaDidik.Ibu);
+                dbcontext.Entry(data.Periodik).CurrentValues.SetValues(calonPesertaDidik.Periodik);
+                dbcontext.Entry(data.Kontak).CurrentValues.SetValues(calonPesertaDidik.Kontak);
                 dbcontext.SaveChanges();
                 return Task.FromResult(true);   
             }

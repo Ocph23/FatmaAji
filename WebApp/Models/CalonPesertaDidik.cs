@@ -21,9 +21,9 @@ namespace WebApp.Models
         public Kewarganegaraan Kewarganegaraan { get;set; }
         public string? Negara { get;set; }
 
-        public Alamat? Alamat { get; set; }
-        public Kontak? Kontak{ get; set; }
-        public Periodik? Periodik{ get; set; }
+        public Alamat? Alamat { get; set; } = new ();
+        public Kontak? Kontak { get; set; } = new();
+        public Periodik? Periodik{ get; set; } = new();
         public OrangTua? Ayah{ get; set; }= new OrangTua();
         public OrangTua? Ibu{ get; set; }= new OrangTua();
 

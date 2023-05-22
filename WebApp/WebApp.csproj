@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApiTest\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ShareModel\ShareModel.csproj" />
   </ItemGroup>
 

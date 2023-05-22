@@ -5,6 +5,7 @@ using Microsoft.Identity.Client;
 using ShareModel;
 using System.Security.Claims;
 using WebApp.Data;
+using WebApp.Models;
 using WebApp.Services;
 
 namespace WebApp.Controllers
@@ -24,22 +25,7 @@ namespace WebApp.Controllers
             pendaftaranService = _pendaftaranService;
         }
 
-        [HttpPost("profile")]
-        public async Task<IActionResult> CreateProfile()
-        {
-            try
-            {
-                var userid = userManager.GetUserId(User);
-                var profile = await pendaftaranService.CreateProfile(userid!);
-                return Ok(profile);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("profile")]
+        [HttpGet]
         public async Task<IActionResult> GetProfile()
         {
             try
@@ -53,5 +39,21 @@ namespace WebApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]CalonPesertaDidik value)
+        {
+            try
+            {
+                var updated = await pendaftaranService.UpdateProfile(value!);
+                return Ok(updated);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 }

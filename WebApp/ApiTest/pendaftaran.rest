@@ -1,0 +1,78 @@
+@url = https://localhost:7113/api
+@token = bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJlNGUyNmM2LTA0ODItNGFiZi04OGQzLTA2ZTVmMjRhOTNlMSIsIm5hbWUiOiJPY3BoMjMiLCJzdWIiOiJvY3BoMjNAZ21haWwuY29tIiwiZW1haWwiOiJvY3BoMjNAZ21haWwuY29tIiwianRpIjoiMGZkMTY3NzktYTBmOC00Y2U5LTk4ZDYtOTVlNjE3NmYzZWE3IiwibmJmIjoxNjg0NzE5Mjg3LCJleHAiOjE2ODUzMjQwODcsImlhdCI6MTY4NDcxOTI4NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyJ9.pSlpZA1dR4PJhAu4hlArAQ45qUU3C_aZTzZAR0x6CX8N2rT-d2ANzZVGzlEL4TDMdV5PmVQmMYel_S4PK9qIYQ
+
+#####
+
+GET {{url}}/pendaftaran HTTP/1.1
+Authorization: {{token}}
+
+
+#####
+
+PUT {{url}}/pendaftaran
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id": 2,
+  "nama": "Aldrich Alfa Jordain",
+  "jenisKelamin": 0,
+  "tempatLahir": "Makassar",
+  "tanggalLahir": "0001-01-01T00:00:00",
+  "kepercayaan": 0,
+  "kewarganegaraan": 0,
+  "negara": null,
+  "alamat": {
+    "id": 1,
+    "jalan": "Perum Permata ",
+    "rt": "",
+    "rw": null,
+    "keluarahan": null,
+    "kecamatan": null
+  },
+  "kontak": {
+    "id": 1,
+    "telepon": "",
+    "hp": "0811481",
+    "email": "ocph23@gmail.com"
+  },
+  "periodik": {
+    "id": 1,
+    "tinggi": 120,
+    "lingkarKepala": 0,
+    "berat": 40,
+    "jarakKeSekolah": 10,
+    "waktuTempuh": "02:10:30",
+    "jumlahSaudara": 0
+  },
+  "ayah": {
+    "id": 3,
+    "nama": "Yoseph Kungkung",
+    "nik": null,
+    "tahunLahir": 0,
+    "pendidikan": 0,
+    "pekerjaan": 0,
+    "penghasilan": 0
+  },
+  "ibu": {
+    "id": 4,
+    "nama": "Elisabeth Hamid",
+    "nik": null,
+    "tahunLahir": 0,
+    "pendidikan": 0,
+    "pekerjaan": 0,
+    "penghasilan": 0
+  },
+  "tempatTinggal": 0,
+  "tempatTinggalLain": null,
+  "modaTransportasi": 0,
+  "modaTransportasiLain": null,
+  "kks": null,
+  "anakKe": 1,
+  "kps": null,
+  "pip": null,
+  "tk": true,
+  "userId": "be4e26c6-0482-4abf-88d3-06e5f24a93e1"
+}
+
+
