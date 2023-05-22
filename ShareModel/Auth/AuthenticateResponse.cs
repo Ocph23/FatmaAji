@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApp.Models.Auth
+namespace ShareModel
 {
     public record AuthenticateResponse(string UserName, string Email, string Token);
 }

@@ -1,4 +1,4 @@
-﻿namespace WebApp.Models.Auth
+﻿namespace ShareModel
 {
     public record RegisterRequest(string Name,string  Email ,string Password );
 

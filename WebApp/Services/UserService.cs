@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
-using WebApp.Models.Auth;
 using WebApp.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using WebApp.Models;
+using ShareModel;
 
 namespace WebApp.Services
 {
@@ -69,7 +69,7 @@ namespace WebApp.Services
                     return new AuthenticateResponse(user.UserName, user.Email, token);
 
                 }
-                throw new SystemException($"Your Account {model.UserName} Not Found !");
+                throw new SystemException($"Your Account {model.UserName} Not Have Access !");
             }
             catch (System.Exception ex)
             {
@@ -109,7 +109,7 @@ namespace WebApp.Services
                 new Claim(JwtRegisteredClaimNames.Jti,
                 Guid.NewGuid().ToString())
              }),
-                Expires = DateTime.UtcNow.AddMinutes(5),
+                Expires = DateTime.UtcNow.AddDays(7),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials

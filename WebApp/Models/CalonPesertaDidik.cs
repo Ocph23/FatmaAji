@@ -6,13 +6,13 @@ namespace WebApp.Models
     {
         public int Id { get; set; }
 
-        public string Nama { get; set; }
+        public string? Nama { get; set; } =string.Empty;
 
         public JenisKelamin JenisKelamin { get; set; }
 
         //public string NISN { get; set; }
 
-        public string TempatLahir { get; set; }
+        public string? TempatLahir { get; set; } = string.Empty;
 
         public DateTime TanggalLahir { get; set; }
 
@@ -23,6 +23,7 @@ namespace WebApp.Models
 
         public Alamat? Alamat { get; set; }
         public Kontak? Kontak{ get; set; }
+        public Periodik? Periodik{ get; set; }
         public OrangTua? Ayah{ get; set; }= new OrangTua();
         public OrangTua? Ibu{ get; set; }= new OrangTua();
 
@@ -36,7 +37,14 @@ namespace WebApp.Models
         public int AnakKe { get; set; } = 1;
         public string? KPS { get; set; }
         public string? PIP { get; set; }
+        public bool TK { get; set; }
+
         public string UserId { get; set; }
+
+        internal static CalonPesertaDidik Create(string userId)
+        {
+            return new CalonPesertaDidik() { UserId = userId };
+        }
     }
 
 
@@ -48,25 +56,10 @@ namespace WebApp.Models
         public int TahunLahir { get; set; }
 
         public Pendidikan  Pendidikan { get; set; }
-
-    }
-
-
-    public enum Pendidikan
-    {
-        TidakSekolah, PutusSd, SDSederajat, SMPSederajat, SMASederajat, D1,D2, D3, S1, S2, S3
-    }
+        public Pekerjaan Pekerjaan { get; set; }
+        public Penghasilan Penghasilan { get; set; }
 
 
-    public enum Pekerjaan
-    {
-        TidakBekerja, Nelayan, Petani, Peternak, PNS,Karyawan, PedagangKecil, PedagangBesar, Wiraswasta, Wirausaha,Buruh, Pensiunan, TenagaKerjaIndonesia, SudahMeninggal 
-    }
-
-
-    public enum Penghasilan
-    {
-        KurangRP1, RP1TORP2, LebihRP2
     }
 
 }

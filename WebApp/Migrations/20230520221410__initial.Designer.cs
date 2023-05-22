@@ -11,7 +11,7 @@ using WebApp.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230519132452__initial")]
+    [Migration("20230520221410__initial")]
     partial class _initial
     {
         /// <inheritdoc />
@@ -222,6 +222,157 @@ namespace WebApp.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("WebApp.Models.Alamat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Jalan")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Kecamatan")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Keluarahan")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RT")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RW")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Alamat");
+                });
+
+            modelBuilder.Entity("WebApp.Models.CalonPesertaDidik", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AlamatId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AnakKe")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AyahId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IbuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("JenisKelamin")
+                        .HasColumnType("int");
+
+                    b.Property<string>("KKS")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("KPS")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Kepercayaan")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Kewarganegaraan")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("KontakId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModaTransportasi")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModaTransportasiLain")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nama")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Negara")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PIP")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("TanggalLahir")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("TempatLahir")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("TempatTinggal")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TempatTinggalLain")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlamatId");
+
+                    b.HasIndex("AyahId");
+
+                    b.HasIndex("IbuId");
+
+                    b.HasIndex("KontakId");
+
+                    b.ToTable("CalonPesertaDidik");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Kontak", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("HP")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Telepon")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Kontak");
+                });
+
+            modelBuilder.Entity("WebApp.Models.OrangTua", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("NIK")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nama")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Pendidikan")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TahunLahir")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrangTua");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -271,6 +422,33 @@ namespace WebApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApp.Models.CalonPesertaDidik", b =>
+                {
+                    b.HasOne("WebApp.Models.Alamat", "Alamat")
+                        .WithMany()
+                        .HasForeignKey("AlamatId");
+
+                    b.HasOne("WebApp.Models.OrangTua", "Ayah")
+                        .WithMany()
+                        .HasForeignKey("AyahId");
+
+                    b.HasOne("WebApp.Models.OrangTua", "Ibu")
+                        .WithMany()
+                        .HasForeignKey("IbuId");
+
+                    b.HasOne("WebApp.Models.Kontak", "Kontak")
+                        .WithMany()
+                        .HasForeignKey("KontakId");
+
+                    b.Navigation("Alamat");
+
+                    b.Navigation("Ayah");
+
+                    b.Navigation("Ibu");
+
+                    b.Navigation("Kontak");
                 });
 #pragma warning restore 612, 618
         }

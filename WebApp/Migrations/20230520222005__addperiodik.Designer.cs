@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Data;
 
@@ -10,9 +11,11 @@ using WebApp.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230520222005__addperiodik")]
+    partial class _addperiodik
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,6 +291,7 @@ namespace WebApp.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Nama")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Negara")
@@ -306,6 +310,7 @@ namespace WebApp.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("TempatLahir")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("TempatTinggal")
@@ -390,6 +395,9 @@ namespace WebApp.Migrations
 
                     b.Property<double>("Berat")
                         .HasColumnType("double");
+
+                    b.Property<bool>("DariTK")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<double>("JarakKeSekolah")
                         .HasColumnType("double");

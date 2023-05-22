@@ -29,6 +29,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPendaftaranService, PendaftaranService>();
 
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
@@ -70,6 +71,15 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
     var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
     dbContext.Database.EnsureCreated();
+
+    if (!dbContext.Roles.Any())
+    {
+        dbContext.Roles.Add(new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" });
+        dbContext.Roles.Add(new IdentityRole { Name = "Pendaftar", NormalizedName = "PENDAFTAR" });
+        dbContext.SaveChanges();
+    }
+
+
    if (!dbContext.Users.Any())
     {
         var user = new ApplicationUser { Name = "Admin", Email = "ocph23.test@gmail.com", UserName = "ocph23.test@gmail.com", EmailConfirmed = true };

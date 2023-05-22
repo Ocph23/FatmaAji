@@ -9,7 +9,6 @@
         public double JarakKeSekolah { get; set; }
         public TimeSpan WaktuTempuh { get; set; }
         public int JumlahSaudara { get; set; }
-        public bool DariTK { get; set; } = true;
 
     }
 
