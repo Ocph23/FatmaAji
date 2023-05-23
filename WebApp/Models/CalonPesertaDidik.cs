@@ -14,7 +14,7 @@ namespace WebApp.Models
 
         public string? TempatLahir { get; set; } = string.Empty;
 
-        public DateTime TanggalLahir { get; set; }
+        public DateOnly TanggalLahir { get; set; }
 
         public Agama Kepercayaan { get; set; }
 

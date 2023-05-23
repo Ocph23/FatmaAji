@@ -1,4 +1,6 @@
 ﻿@page "/calon"
+@using Microsoft.EntityFrameworkCore;
+@using WebApp.Validators;
 @attribute [Authorize(Roles = "Admin")]
 
 @inject ApplicationDbContext dbcontext
@@ -35,7 +37,26 @@
     RadzenDataGrid<CalonPesertaDidik> dg;
     protected override async Task OnInitializedAsync()
     {
-        var source = dbcontext.CalonPesertaDidik.ToList();
+        var source = dbcontext.CalonPesertaDidik
+        .Include(x => x.Alamat)
+        .Include(x => x.Periodik)
+        .Include(x => x.Kontak)
+        .Include(x => x.Ayah)
+        .Include(x => x.Ibu)
+        .ToList();
+        var validator = new CalonPesertaDidikValidator();
+        foreach (var item in source)
+        {
+            item.Kewarganegaraan = Kewarganegaraan.WNA;
+            item.Negara = "Italia";
+            var validatorResult = validator.Validate(item);
+            if (validatorResult.IsValid)
+            {
+                
+            }
+        }
+
+
         datas = source.ToList();
     }
 

@@ -1,5 +1,5 @@
 @url = https://localhost:7113/api
-@token = bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlM2YwZmFhLTEzYjQtNDlhZi04MTQyLWE0ZDBiMDdkODU5NiIsIm5hbWUiOiJPY3BoMjMiLCJzdWIiOiJvY3BoMjNAZ21haWwuY29tIiwiZW1haWwiOiJvY3BoMjNAZ21haWwuY29tIiwianRpIjoiNzViYmZkOTAtMDllZS00YjFiLWFiMGUtNjA1ZTAzNGNlNGVhIiwibmJmIjoxNjg0NzMyNDM1LCJleHAiOjE2ODUzMzcyMzUsImlhdCI6MTY4NDczMjQzNSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyJ9.G7g6BLfYWR4baJMjU6U7VQpnm-1IDCNfbJZeLeR-W3Nw3B_p449Zuxd6nDuYCYcj7zOagbtXhN4nz7bjL0A9Ew
+@token = bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMyOGE1OTdhLTA2NTgtNDQ1MC05ZGEzLTdlYWRmMjhkNmU0ZSIsIm5hbWUiOiJPY3BoMjMiLCJzdWIiOiJvY3BoMjNAZ21haWwuY29tIiwiZW1haWwiOiJvY3BoMjNAZ21haWwuY29tIiwianRpIjoiMWE0M2RkYjYtNDE1Ny00NTdlLTgwYTEtM2RkOGQyNDUwZTQzIiwibmJmIjoxNjg0NzY1NjA3LCJleHAiOjE2ODUzNzA0MDcsImlhdCI6MTY4NDc2NTYwNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyJ9.2Vj1Vt6zHVFfLn2DBzeYLtNPLYbyO7kfm0sL7KsIsKgJkBWIggccJhrirfIo_3lbzlKNKxxIJ4hosL321g6LBw
 
 #####
 
@@ -14,48 +14,48 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "id": 1,
+  "id": 3,
   "nama": "Aldrich Alfa Jordain",
   "jenisKelamin": 0,
-  "tempatLahir": "",
-  "tanggalLahir": "0001-01-01T00:00:00",
+  "tempatLahir": "Makassar",
+  "tanggalLahir": "2015-01-01",
   "kepercayaan": 0,
   "kewarganegaraan": 0,
   "negara": null,
   "alamat": {
-    "id": 1,
-    "jalan": null,
-    "rt": null,
-    "rw": null,
-    "keluarahan": null,
-    "kecamatan": null
+    "id": 3,
+    "jalan": "Perum Permata Indah",
+    "rt": "2",
+    "rw": "1",
+    "keluarahan": "Asano",
+    "kecamatan": "Abepura"
   },
   "kontak": {
-    "id": 1,
+    "id": 3,
     "telepon": null,
-    "hp": null,
+    "hp": "08111485",
     "email": null
   },
   "periodik": {
-    "id": 1,
-    "tinggi": 0,
-    "lingkarKepala": 0,
-    "berat": 0,
-    "jarakKeSekolah": 0,
-    "waktuTempuh": "00:00:00",
-    "jumlahSaudara": 0
+    "id": 3,
+    "tinggi": 110,
+    "lingkarKepala": 20,
+    "berat": 130,
+    "jarakKeSekolah": 1,
+    "waktuTempuh": "05:20:00",
+    "jumlahSaudara": 1
   },
   "ayah": {
-    "id": 1,
-    "nama": null,
-    "nik": null,
-    "tahunLahir": 0,
+    "id": 5,
+    "nama": "Yoseph Kungkung",
+    "nik": "1252525252",
+    "tahunLahir": 1979,
     "pendidikan": 0,
     "pekerjaan": 0,
     "penghasilan": 0
   },
   "ibu": {
-    "id": 2,
+    "id": 6,
     "nama": null,
     "nik": null,
     "tahunLahir": 0,
@@ -72,5 +72,5 @@ Authorization: {{token}}
   "kps": null,
   "pip": null,
   "tk": false,
-  "userId": "1e3f0faa-13b4-49af-8142-a4d0b07d8596"
+  "userId": "c28a597a-0658-4450-9da3-7eadf28d6e4e"
 }
