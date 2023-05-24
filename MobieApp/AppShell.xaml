@@ -25,6 +25,8 @@
                          ContentTemplate="{DataTemplate local:AyahPage}" />
             <ShellContent Title="Ibu"
                          ContentTemplate="{DataTemplate local:IbuPage}" />
+            <ShellContent Title="Persyaratan"
+                         ContentTemplate="{DataTemplate local:PersyaratanPage}" />
         </Tab>
         <Tab Title="Pengumuman"
             Icon="monkey.png">

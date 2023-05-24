@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using ShareModel;
 
-namespace WebApp.Validators
+namespace ShareModel
 {
     public class AddressValidator :AbstractValidator<Alamat>
     {

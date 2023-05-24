@@ -7,6 +7,8 @@ namespace MobieApp
     {
 
         public IAccountService AccountStore => DependencyService.Get<IAccountService>();
+        public IPendaftaranService PendaftaranStore => DependencyService.Get<IPendaftaranService>();
+        public IPersyaratanService PersyaratanStore => DependencyService.Get<IPersyaratanService>();
 
         private string titile;
 

@@ -4,7 +4,7 @@
              x:Class="MobieApp.Pages.CalonSiswaPage"
              Title="Biodata">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Command="{Binding SaveCoomand}"></ToolbarItem>
+        <ToolbarItem Text="{Binding SaveText}" Command="{Binding SaveCoomand}"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="5">

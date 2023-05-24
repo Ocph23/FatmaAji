@@ -23,14 +23,16 @@ public class CalonSiswaViewModel : BaseViewModel
     public List<EnumModel<JenisKelamin>> JenisKelamins { get; set; } = new List<EnumModel<JenisKelamin>>();
     public Command SaveCoomand { get; }
 
+    private CalonPesertaDidikValidator validator = new CalonPesertaDidikValidator();
+
     public CalonSiswaViewModel()
     {
-      
+
 
         foreach (var item in Enum.GetValues(typeof(Agama)).Cast<Agama>().ToList())
             Agamas.Add(new EnumModel<Agama>(item, ShareModel.Helper.AddWhiteSpaceInTitleCase(item.ToString())));
-        
-        foreach (var item in Enum.GetValues( typeof(Kewarganegaraan)).OfType<Kewarganegaraan>().ToList())
+
+        foreach (var item in Enum.GetValues(typeof(Kewarganegaraan)).OfType<Kewarganegaraan>().ToList())
             Kewarganegaraans.Add(new EnumModel<Kewarganegaraan>(item, ShareModel.Helper.AddWhiteSpaceInTitleCase(item.ToString())));
 
 
@@ -46,32 +48,57 @@ public class CalonSiswaViewModel : BaseViewModel
 
         Model = Account.Profile;
 
-        AgamaSelected = Agamas.SingleOrDefault(x=>x.Value==Model.Kepercayaan);
-        KewarganegaraanSelected = Kewarganegaraans.SingleOrDefault(x=>x.Value==Model.Kewarganegaraan);
-        JenisKelaminSelected= JenisKelamins.SingleOrDefault(x=>x.Value==Model.JenisKelamin);
-        TempatTinggalSelected= TempatTinggals.SingleOrDefault(x=>x.Value==Model.TempatTinggal);
-        ModaTransportasiSelected= ModaTransportasis.SingleOrDefault(x=>x.Value==Model.ModaTransportasi);
+        AgamaSelected = Agamas.SingleOrDefault(x => x.Value == Model.Kepercayaan);
+        KewarganegaraanSelected = Kewarganegaraans.SingleOrDefault(x => x.Value == Model.Kewarganegaraan);
+        JenisKelaminSelected = JenisKelamins.SingleOrDefault(x => x.Value == Model.JenisKelamin);
+        TempatTinggalSelected = TempatTinggals.SingleOrDefault(x => x.Value == Model.TempatTinggal);
+        ModaTransportasiSelected = ModaTransportasis.SingleOrDefault(x => x.Value == Model.ModaTransportasi);
 
 
         SaveCoomand = new Command(SaveAction, SaveValidate);
     }
 
 
-
     private bool SaveValidate(object arg)
     {
+        var resultValidator = validator.Validate(Model);
+        if (!resultValidator.IsValid)
+        {
+            SaveText = "Simpan";
+            return false;
+        }
+        SaveText = "Kirim";
         return true;
     }
 
-    private void SaveAction(object obj)
+    private async void SaveAction(object obj)
     {
-        Account.SetProfile(Account.Profile);
+        try
+        {
+            await Account.SetProfile(Account.Profile);
+            var resultValidator = validator.Validate(Model);
+            if (!resultValidator.IsValid)
+            {
+                var updated = await PendaftaranStore.Update(Model);
+                await MessageHelper.InfoAsync("Data Berhasil Dikirim !");
+                return;
+            }
+            await MessageHelper.InfoAsync("Lengkapi Data !");
+        }
+        catch (Exception ex)
+        {
+            await MessageHelper.ErrorAsync(ex.Message);
+        }
+
+
     }
     private EnumModel<Agama> agamaSelected;
     public EnumModel<Agama> AgamaSelected
     {
         get { return agamaSelected; }
-        set { SetProperty(ref agamaSelected , value);
+        set
+        {
+            SetProperty(ref agamaSelected, value);
             Model.Kepercayaan = value.Value;
         }
     }
@@ -83,13 +110,12 @@ public class CalonSiswaViewModel : BaseViewModel
     public EnumModel<JenisKelamin> JenisKelaminSelected
     {
         get { return jenisKelaminSelected; }
-        set { SetProperty(ref jenisKelaminSelected , value);
+        set
+        {
+            SetProperty(ref jenisKelaminSelected, value);
             Model.JenisKelamin = value.Value;
         }
     }
-
-
-
 
     private EnumModel<Kewarganegaraan> kewarganegaraanSelected;
 
@@ -127,11 +153,18 @@ public class CalonSiswaViewModel : BaseViewModel
         set
         {
             SetProperty(ref modaTransportasiSelected, value);
-            Model.ModaTransportasi= value.Value;
+            Model.ModaTransportasi = value.Value;
         }
     }
 
 
+    private string saveText = "Simpan";
+
+    public string SaveText
+    {
+        get { return saveText; }
+        set { SetProperty(ref saveText, value); }
+    }
 
 
 

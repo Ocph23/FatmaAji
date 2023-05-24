@@ -4,7 +4,6 @@
              x:Class="MobieApp.Pages.LoginPage"
              Title="Login Page">
     <Grid RowDefinitions="40*, 50*, 10*" Padding="40">
-
         <Grid>
             <Image VerticalOptions="Center" Source="tutwuri.png" WidthRequest="150"></Image>
         </Grid>

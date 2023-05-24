@@ -36,8 +36,11 @@
                     <Entry Text="{Binding ConfirmPassword}" IsPassword="True" Placeholder="Password"></Entry>
                 </HorizontalStackLayout>
             </Frame>
+            <HorizontalStackLayout>
+                <CheckBox IsChecked ="{Binding IsZonasi}"></CheckBox>
+                <Label Text="Anda Masuk Dalam Area Zonasi ?" ToolTipProperties.Text="Zonasi Meliput: Pantai Tanjung Ria Hingga Dok IX"></Label>
+            </HorizontalStackLayout>
             <Button Margin="5" HeightRequest="60" Text="LOGIN" Command="{Binding RegisterCommand}"></Button>
-            
         </StackLayout>
         <StackLayout Grid.Row="2">
             <Label Text="DINAS PENDIDIKAN DAN KEBUDAYAAN"  HorizontalOptions="Center"></Label>

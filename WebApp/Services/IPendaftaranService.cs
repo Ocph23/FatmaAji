@@ -41,6 +41,11 @@ namespace WebApp.Services
         public Task<CalonPesertaDidik> CreateProfile(string userId)
         {
             var data = CalonPesertaDidik.Create(userId);
+
+            foreach(var item in dbcontext.Persyaratan.ToList())
+            {
+                data.Persyaratan.Add(new ItemPersyaratan { Persyaratan = item });
+            }
             dbcontext.CalonPesertaDidik.Add(data);
             dbcontext.SaveChanges();
             return Task.FromResult(data);

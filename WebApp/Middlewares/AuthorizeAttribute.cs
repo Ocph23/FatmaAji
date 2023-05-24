@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

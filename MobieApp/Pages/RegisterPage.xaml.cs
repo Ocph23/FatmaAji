@@ -63,6 +63,9 @@ public class RegisterViewModel:BaseViewModel
     {
        if(string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
 			return false;
+
+	   if(!IsZonasi)
+			return false;
 	   return true;
     }
 
@@ -102,6 +105,15 @@ public class RegisterViewModel:BaseViewModel
 		get { return confirmPasssword; }
 		set { SetProperty(ref confirmPasssword , value); }
 	}
+
+	private bool isZonasi;
+
+	public bool IsZonasi
+    {
+		get { return isZonasi; }
+		set { SetProperty(ref isZonasi , value); }
+	}
+
 
 
 	public Command RegisterCommand { get; }
