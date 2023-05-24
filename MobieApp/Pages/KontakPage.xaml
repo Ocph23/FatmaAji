@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobieApp.Pages.KontakPage"
+             Title="Kontak">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="5">
+            <VerticalStackLayout Style="{StaticResource formControl}">
+                <Label Style="{StaticResource entryLabel}" Text="Telepon"></Label>
+                <Frame Style="{StaticResource entryBorder}"  >
+                    <Entry Placeholder="Nama" Text="{Binding Model.Telepon}" HorizontalOptions="FillAndExpand"></Entry>
+                </Frame>
+            </VerticalStackLayout>
+            <VerticalStackLayout Style="{StaticResource formControl}">
+                <Label Style="{StaticResource entryLabel}" Text="Handphone"></Label>
+                <Frame Style="{StaticResource entryBorder}">
+                    <Entry Placeholder="Nama" Text="{Binding Model.HP}" HorizontalOptions="FillAndExpand"></Entry>
+                </Frame>
+            </VerticalStackLayout>
+            <VerticalStackLayout Style="{StaticResource formControl}">
+                <Label Style="{StaticResource entryLabel}" Text="Email"></Label>
+                <Frame Style="{StaticResource entryBorder}"  >
+                    <Entry Placeholder="Nama" Text="{Binding Model.Email}" HorizontalOptions="FillAndExpand"></Entry>
+                </Frame>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

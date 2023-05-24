@@ -1,5 +1,5 @@
 @url = https://localhost:7113/api
-@token = bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMyOGE1OTdhLTA2NTgtNDQ1MC05ZGEzLTdlYWRmMjhkNmU0ZSIsIm5hbWUiOiJPY3BoMjMiLCJzdWIiOiJvY3BoMjNAZ21haWwuY29tIiwiZW1haWwiOiJvY3BoMjNAZ21haWwuY29tIiwianRpIjoiMWE0M2RkYjYtNDE1Ny00NTdlLTgwYTEtM2RkOGQyNDUwZTQzIiwibmJmIjoxNjg0NzY1NjA3LCJleHAiOjE2ODUzNzA0MDcsImlhdCI6MTY4NDc2NTYwNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyJ9.2Vj1Vt6zHVFfLn2DBzeYLtNPLYbyO7kfm0sL7KsIsKgJkBWIggccJhrirfIo_3lbzlKNKxxIJ4hosL321g6LBw
+@token = bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMyNDFjZGZjLTE5YTMtNDU2MS04NTFlLTU2OGQyY2ViN2Y4NyIsIm5hbWUiOiJPY3BoMjMiLCJzdWIiOiJvY3BoMjNAZ21haWwuY29tIiwiZW1haWwiOiJvY3BoMjNAZ21haWwuY29tIiwianRpIjoiZjgxODNhM2UtYjFlMi00MWRkLTg0NDAtNDU5YjE1NzFjN2NjIiwibmJmIjoxNjg0ODMyMTQzLCJleHAiOjE2ODU0MzY5NDMsImlhdCI6MTY4NDgzMjE0MywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyJ9.pouqJIHFEdCXBsw96o7_KXRs8qhDbvcIglBGLd63F1NmMA4RutSr0jRJfIu0YYbJkEYPkor66Lj1R2bpZH8Gzw
 
 #####
 
@@ -14,8 +14,8 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "id": 3,
-  "nama": "Aldrich Alfa Jordain",
+  "id": 1,
+  "nama": "Aldrich Alpha Jordain",
   "jenisKelamin": 0,
   "tempatLahir": "Makassar",
   "tanggalLahir": "2015-01-01",
@@ -23,42 +23,42 @@ Authorization: {{token}}
   "kewarganegaraan": 0,
   "negara": null,
   "alamat": {
-    "id": 3,
-    "jalan": "Perum Permata Indah",
+    "id": 1,
+    "jalan": "jln. Sudirman",
     "rt": "2",
     "rw": "1",
-    "keluarahan": "Asano",
-    "kecamatan": "Abepura"
+    "keluarahan": "Tanjung Ria",
+    "kecamatan": "Tanjung"
   },
   "kontak": {
-    "id": 3,
+    "id": 1,
     "telepon": null,
-    "hp": "08111485",
+    "hp": "0811148",
     "email": null
   },
   "periodik": {
-    "id": 3,
-    "tinggi": 110,
-    "lingkarKepala": 20,
-    "berat": 130,
+    "id": 1,
+    "tinggi": 10,
+    "lingkarKepala": 10,
+    "berat": 20,
     "jarakKeSekolah": 1,
-    "waktuTempuh": "05:20:00",
-    "jumlahSaudara": 1
+    "waktuTempuh": "00:30:00",
+    "jumlahSaudara": 0
   },
   "ayah": {
-    "id": 5,
+    "id": 1,
     "nama": "Yoseph Kungkung",
-    "nik": "1252525252",
+    "nik": "555555",
     "tahunLahir": 1979,
     "pendidikan": 0,
     "pekerjaan": 0,
     "penghasilan": 0
   },
   "ibu": {
-    "id": 6,
-    "nama": null,
-    "nik": null,
-    "tahunLahir": 0,
+    "id": 2,
+    "nama": "Elisabeth Hamid",
+    "nik": "1112525",
+    "tahunLahir": 1976,
     "pendidikan": 0,
     "pekerjaan": 0,
     "penghasilan": 0
@@ -72,5 +72,45 @@ Authorization: {{token}}
   "kps": null,
   "pip": null,
   "tk": false,
-  "userId": "c28a597a-0658-4450-9da3-7eadf28d6e4e"
+  "userId": "3241cdfc-19a3-4561-851e-568d2ceb7f87",
+  "persyaratan": []
 }
+
+
+####
+
+
+POST {{url}}/pendaftaran/persyaratan/1 HTTP/1.1
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "fileName":"file1.jpg",
+    "jawaban":"noasdasd",
+     "persyaratan":{
+        "id": 1,
+        "name":"Apalah",
+        "isUpload":true,
+        "description":"Aplah"
+    }
+}
+
+
+######
+
+PUT {{url}}/pendaftaran/persyaratan/5 HTTP/1.1
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id": 5,
+  "persyaratan": {
+    "id": 1,
+    "name": "Apalah",
+    "isUpload": true,
+    "description": "Aplah"
+  },
+  "fileName": "fileasdadas1.jpg",
+  "jawaban": "noasdasda asd asdasd"
+}
+

@@ -151,6 +151,33 @@ namespace WebApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ShareModel.ItemPersyaratan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CalonPesertaDidikId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Jawaban")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("PersyaratanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalonPesertaDidikId");
+
+                    b.HasIndex("PersyaratanId");
+
+                    b.ToTable("ItemPersyaratan");
+                });
+
             modelBuilder.Entity("ShareModel.Persyaratan", b =>
                 {
                     b.Property<int>("Id")
@@ -324,8 +351,8 @@ namespace WebApp.Migrations
                     b.Property<bool>("TK")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("TanggalLahir")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("TanggalLahir")
+                        .HasColumnType("date");
 
                     b.Property<string>("TempatLahir")
                         .HasColumnType("longtext");
@@ -484,6 +511,21 @@ namespace WebApp.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ShareModel.ItemPersyaratan", b =>
+                {
+                    b.HasOne("WebApp.Models.CalonPesertaDidik", null)
+                        .WithMany("Persyaratan")
+                        .HasForeignKey("CalonPesertaDidikId");
+
+                    b.HasOne("ShareModel.Persyaratan", "Persyaratan")
+                        .WithMany()
+                        .HasForeignKey("PersyaratanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Persyaratan");
+                });
+
             modelBuilder.Entity("WebApp.Models.CalonPesertaDidik", b =>
                 {
                     b.HasOne("WebApp.Models.Alamat", "Alamat")
@@ -515,6 +557,11 @@ namespace WebApp.Migrations
                     b.Navigation("Kontak");
 
                     b.Navigation("Periodik");
+                });
+
+            modelBuilder.Entity("WebApp.Models.CalonPesertaDidik", b =>
+                {
+                    b.Navigation("Persyaratan");
                 });
 #pragma warning restore 612, 618
         }

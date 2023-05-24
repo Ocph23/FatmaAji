@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.IdentityModel.Tokens;
+using ShareModel;
 using WebApp.Models;
 
 namespace WebApp.Validators
@@ -9,7 +10,7 @@ namespace WebApp.Validators
         public KontakValidator()
         {
             RuleFor(x => x.Email).EmailAddress().When(x=>!x.Email.IsNullOrEmpty());
-            RuleFor(x => x.HP).NotEmpty().NotNull();
+            RuleFor(x => x.HP).NotEmpty();
         }
     }
 }

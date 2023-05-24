@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using ShareModel;
 using WebApp.Models;
 
 namespace WebApp.Validators

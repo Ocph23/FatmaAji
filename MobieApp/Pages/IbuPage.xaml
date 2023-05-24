@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobieApp.Pages.IbuPage"
+             Title="Ibu">
+    <VerticalStackLayout Padding="20" Spacing="5">
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Nama"></Label>
+            <Frame Style="{StaticResource entryBorder}"  >
+                <Entry Placeholder="Nama" Text="{Binding Model.Nama}" HorizontalOptions="FillAndExpand"></Entry>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="NIK"></Label>
+            <Frame Style="{StaticResource entryBorder}">
+                <Entry Placeholder="Nama" Text="{Binding Model.NIK}" HorizontalOptions="FillAndExpand"></Entry>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Tahun Lahir"></Label>
+            <Frame Style="{StaticResource entryBorder}"  >
+                <Entry Placeholder="Nama" Text="{Binding Model.TahunLahir}" Keyboard="Numeric" HorizontalOptions="FillAndExpand"></Entry>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Pendidikan"></Label>
+            <Frame Style="{StaticResource entryBorder}" >
+                <Picker ItemsSource="{Binding Pendidikans}" ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding PendidikanSelected}"></Picker>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Pekerjaan"></Label>
+            <Frame Style="{StaticResource entryBorder}" >
+                <Picker ItemsSource="{Binding Pekerjaans}" ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding PekerjaanSelected}"></Picker>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Penghasilan"></Label>
+            <Frame Style="{StaticResource entryBorder}" >
+                <Picker ItemsSource="{Binding Penghasilans}" ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding PenghasilanSelected}" ></Picker>
+            </Frame>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

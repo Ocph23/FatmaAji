@@ -1,7 +1,7 @@
-@url = https://localhost:7113/api
+@url = https://jppqzss6-7113.asse.devtunnels.ms/api
 @token = bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJlNGUyNmM2LTA0ODItNGFiZi04OGQzLTA2ZTVmMjRhOTNlMSIsIm5hbWUiOiJPY3BoMjMiLCJzdWIiOiJvY3BoMjNAZ21haWwuY29tIiwiZW1haWwiOiJvY3BoMjNAZ21haWwuY29tIiwianRpIjoiMGZkMTY3NzktYTBmOC00Y2U5LTk4ZDYtOTVlNjE3NmYzZWE3IiwibmJmIjoxNjg0NzE5Mjg3LCJleHAiOjE2ODUzMjQwODcsImlhdCI6MTY4NDcxOTI4NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyJ9.pSlpZA1dR4PJhAu4hlArAQ45qUU3C_aZTzZAR0x6CX8N2rT-d2ANzZVGzlEL4TDMdV5PmVQmMYel_S4PK9qIYQ
 
-POST  https://localhost:7113/api/account/register 
+POST  https://jppqzss6-7113.asse.devtunnels.ms/api/account/register 
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 
 ##########
 
-POST  https://localhost:7113/api/account/login 
+POST  {{url}}/account/login 
 Content-Type: application/json
 
 {

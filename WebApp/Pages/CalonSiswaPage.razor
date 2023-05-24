@@ -8,7 +8,7 @@
 @inject NotificationService NotificationService
 @inject NavigationManager nav
 
-<h3>Data CalonPesertaDidik</h3>
+<h3>Data Calon Siswa</h3>
 
 <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false"
                 FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
@@ -16,13 +16,15 @@
                 TItem="CalonPesertaDidik" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
     <Columns>
         <RadzenDataGridColumn TItem="CalonPesertaDidik" Property="Nama" Title="Nama" />
-        <RadzenDataGridColumn TItem="CalonPesertaDidik" Title="TTL" >
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="100px" Property="JenisKelamin" Title="JK" />
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="200px" Title="TTL">
             <Template>
                 @($"{context.TempatLahir}, {context.TanggalLahir.ToString("dd/MM/yyyy")}")
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="CalonPesertaDidik" Property="Description" Title="Keterangan" />
-        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="80px">
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="120px" Property="Kepercayaan" Title="Agama" />
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Property="Ayah.Nama" Title="Ayah" />
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="60px">
             <Template>
                 <RadzenButton Click="@(()=> nav.NavigateTo($"/calon/{context.Id}"))" Icon="details" ButtonStyle="ButtonStyle.Warning" />
             </Template>
@@ -32,8 +34,7 @@
 
 @code {
 
-
-    ICollection<CalonPesertaDidik> datas;
+    ICollection<CalonPesertaDidik> datas = new List<CalonPesertaDidik>();
     RadzenDataGrid<CalonPesertaDidik> dg;
     protected override async Task OnInitializedAsync()
     {
@@ -47,17 +48,12 @@
         var validator = new CalonPesertaDidikValidator();
         foreach (var item in source)
         {
-            item.Kewarganegaraan = Kewarganegaraan.WNA;
-            item.Negara = "Italia";
             var validatorResult = validator.Validate(item);
             if (validatorResult.IsValid)
             {
-                
+                datas.Add(item);           
             }
         }
-
-
-        datas = source.ToList();
     }
 
     async Task Delete(CalonPesertaDidik model)

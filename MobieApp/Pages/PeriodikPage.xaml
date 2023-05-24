@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobieApp.Pages.PeriodikPage"
+             Title="Periodik">
+    <VerticalStackLayout Padding="20" Spacing="5">
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Tinggi Badan"></Label>
+            <Frame Style="{StaticResource entryBorder}">
+                <Entry Placeholder="Nama" Text="{Binding Model.Tinggi}" Keyboard="Numeric" HorizontalOptions="FillAndExpand"></Entry>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Berat Badan"></Label>
+            <Frame Style="{StaticResource entryBorder}">
+                <Entry Placeholder="Nama" Text="{Binding Model.Berat}" Keyboard="Numeric" HorizontalOptions="FillAndExpand"></Entry>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Lingkar Kepala"></Label>
+            <Frame Style="{StaticResource entryBorder}">
+                <Entry Placeholder="Nama" Text="{Binding Model.LingkarKepala}"  Keyboard="Numeric" HorizontalOptions="FillAndExpand"></Entry>
+            </Frame>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Jumlah Saudara"></Label>
+            <Frame Style="{StaticResource entryBorder}">
+                <Entry Placeholder="Nama" Text="{Binding Model.JumlahSaudara}" Keyboard="Numeric" HorizontalOptions="FillAndExpand"></Entry>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Jarak Ke Sekolah"></Label>
+            <Frame Style="{StaticResource entryBorder}">
+                <Entry Placeholder="Nama" Text="{Binding Model.JarakKeSekolah}" Keyboard="Numeric" HorizontalOptions="FillAndExpand"></Entry>
+            </Frame>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{StaticResource formControl}">
+            <Label Style="{StaticResource entryLabel}" Text="Waktu Tempuh"></Label>
+            <Frame Style="{StaticResource entryBorder}">
+                <TimePicker Time="{Binding Model.WaktuTempuh}" HorizontalOptions="FillAndExpand"></TimePicker>
+            </Frame>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

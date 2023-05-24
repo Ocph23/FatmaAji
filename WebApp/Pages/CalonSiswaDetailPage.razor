@@ -1,10 +1,14 @@
 ﻿@page "/calon/{id:int}"
+@using Microsoft.EntityFrameworkCore;
+@using WebApp.Validators;
+@using FluentValidation;
+
 @attribute [Authorize(Roles = "Admin")]
 @inject ApplicationDbContext dbcontext
 @inject DialogService dialogService
 @inject NotificationService NotificationService
 
-<h3>Detail</h3>
+<h3>Detail Calon Siswa</h3>
 
 @if (Model == null)
 {
@@ -12,60 +16,399 @@
 }
 else
 {
-    <RadzenTemplateForm Data="Model">
+    <RadzenTemplateForm Data="Model" TItem="CalonPesertaDidik" Submit=@OnSubmit InvalidSubmit=@OnInvalidSubmit>
+        <FluentValidationValidator @ref="_fluentValidationValidator" />
         <RadzenTabs SelectedIndex="0">
             <Tabs>
                 <RadzenTabsItem Text="Biodata">
                     <RadzenStack>
                         <RadzenRow AlignItems="AlignItems.Center">
-                            <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="City" />
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Nama Calon Siswa" />
                             </RadzenColumn>
-                            <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" Name="City" />
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@Model.Nama" Style="width: 100%;" Name="nama" />
+                               <ValidationMessage For="@(() => Model.Nama)" />
                             </RadzenColumn>
                         </RadzenRow>
                         <RadzenRow AlignItems="AlignItems.Center">
-                            <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="Address Line 1">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Jenis Kelamin">
                                 </RadzenLabel>
                             </RadzenColumn>
-                            <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" Name="Address1" />
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly  Value="@Model.JenisKelamin.ToString()" Style="width: 100%;" Name="jk"  />
                             </RadzenColumn>
                         </RadzenRow>
                         <RadzenRow AlignItems="AlignItems.Center">
-                            <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="Address Line 2" />
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Tempat, Tanggal Lahir" />
                             </RadzenColumn>
-                            <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" Name="Address2" />
-                            </RadzenColumn>
-                        </RadzenRow>
-                        <RadzenRow AlignItems="AlignItems.Center">
-                            <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="State / Province / Region" />
-                            </RadzenColumn>
-                            <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" Name="State" />
+                            <RadzenColumn Size="12" SizeMD="9">
+                            
+                                <RadzenTextBox ReadOnly Value="@($"{Model.TempatLahir}, {Model.TanggalLahir.ToString("dd-MM-yyyy")}")" Style="width: 100%;" Name="ttls" />
+                                <ValidationMessage For="@(() => Model.TempatLahir)" />
+                            
                             </RadzenColumn>
                         </RadzenRow>
                         <RadzenRow AlignItems="AlignItems.Center">
-                            <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="Zip / Postal Code" />
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Agama" />
                             </RadzenColumn>
-                            <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" Name="Zip" />
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Style="width: 100%;" Name="agama" Value="@Helper.AddWhiteSpaceInTitleCase(Model.Kepercayaan.ToString())" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Anak Ke" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenTextBox ReadOnly Style="width: 100%;" Name="anakke" Value="@Model.AnakKe.ToString()" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Kewarganegaraan" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenRow AlignItems="AlignItems.Center">
+                                    <RadzenColumn Size="12" SizeMD="4">
+                                        <RadzenTextBox ReadOnly Style="width: 100%;" Name="kwearganegaraan" Value="@Model.Kewarganegaraan.ToString()" />
+                                    </RadzenColumn>
+                                    <RadzenColumn Size="12" SizeMD="8">
+                                        @if (Model.Kewarganegaraan==Kewarganegaraan.WNA){
+                                            <RadzenTextBox ReadOnly Style="width: 100%;" Name="negara" Value="@Model.Negara" />
+                                            
+                                        }
+                                    </RadzenColumn>
+                                </RadzenRow>
+                                <ValidationMessage For="@(() => Model.Negara)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Tempat Tinggal" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenRow AlignItems="AlignItems.Center">
+                                    <RadzenColumn Size="12" SizeMD="4">
+                                        <RadzenTextBox ReadOnly Style="width: 100%;" Name="tempatTinggal" Value="@Helper.AddWhiteSpaceInTitleCase(Model.TempatTinggal.ToString())" />
+                                    </RadzenColumn>
+                                    <RadzenColumn Size="12" SizeMD="8">
+                                        @if(Model.TempatTinggal== TempatTinggal.Lainnya)
+                                        {
+                                            <RadzenTextBox ReadOnly Style="width: 100%;" Name="tempattinggallain" Value="@Model.TempatTinggalLain" />
+                                           
+                                        }
+                                    </RadzenColumn>
+                                </RadzenRow>
+                                 <ValidationMessage For="@(() => Model.TempatTinggalLain)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Moda Transportasi" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenRow AlignItems="AlignItems.Center">
+                                    <RadzenColumn Size="12" SizeMD="4">
+                                        <RadzenTextBox ReadOnly Style="width: 100%;" Name="modaTrasportasi" Value="@Helper.AddWhiteSpaceInTitleCase(Model.ModaTransportasi.ToString())" />
+                                        </RadzenColumn>
+                                        <RadzenColumn Size="12" SizeMD="8">
+                                        @if (Model.ModaTransportasi == ModaTransportasi.Lainnya)
+                                        {
+                                            <RadzenTextBox ReadOnly Style="width: 100%;" Name="transportasiLain" Value="@Model.ModaTransportasiLain" />
+                                           
+                                        }
+                                    </RadzenColumn>
+                                </RadzenRow>
+                                 <ValidationMessage For="@(() => Model.ModaTransportasiLain)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="KKS" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@Model.KKS" Style="width: 100%;" Name="kks" />
+                               <ValidationMessage For="@(() => Model.KKS)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="KPS" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@Model.KPS" Style="width: 100%;" Name="kps" />
+                               <ValidationMessage For="@(() => Model.KPS)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="PIP" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@Model.PIP" Style="width: 100%;" Name="pip" />
+                                 <ValidationMessage For="@(() => Model.PIP)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Dari TK" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenCheckBox ReadOnly Value="@Model.TK" Name="tk" />
                             </RadzenColumn>
                         </RadzenRow>
                     </RadzenStack>
                 </RadzenTabsItem>
-                <RadzenTabsItem Text="Shipping Address">
+                <RadzenTabsItem Text="Data Periodik">
+                     <RadzenStack>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Tinggi" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@($"{Model.Periodik.Tinggi.ToString("N2")} cm")" Style="width: 100%;" Name="nama" />
+                                 <ValidationMessage For="@(() => Model.Periodik.Tinggi)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Berat" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@($"{Model.Periodik.Berat.ToString("N2")} kg")" Style="width: 100%;" Name="nama" />
+                                   <ValidationMessage For="@(() => Model.Periodik.Berat)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Lingkar Kepala" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@($"{Model.Periodik.LingkarKepala.ToString("N2")} cm")" Style="width: 100%;" Name="nama" />
+                                   <ValidationMessage For="@(() => Model.Periodik.LingkarKepala)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                                <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Jumlah Saudara" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@($"{Model.Periodik.JumlahSaudara.ToString("N0")} Orang")" Style="width: 100%;" Name="nama" />
+                                </RadzenColumn>
+                                </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Jarak Ke Sekolah" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@($"{Model.Periodik.JarakKeSekolah.ToString("N2")} km")" Style="width: 100%;" Name="nama" />
+                                   <ValidationMessage For="@(() => Model.Periodik.JarakKeSekolah)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Waktu Tempuh" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@($"{Model.Periodik.WaktuTempuh}")" Style="width: 100%;" Name="nama" />
+                                   <ValidationMessage For="@(() => Model.Periodik.WaktuTempuh)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                     </RadzenStack>
+                </RadzenTabsItem>
+
+                <RadzenTabsItem Text="Ayah">
+                     <RadzenStack>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Nama" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Ayah.Nama)" Style="width: 100%;" Name="nama" />
+                                   <ValidationMessage For="@(() => Model.Ayah.Nama)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="NIK" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Ayah.NIK)" Style="width: 100%;" Name="nama" />
+                                  <ValidationMessage For="@(() => Model.Ayah.NIK)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Tahun Lahir" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Ayah.TahunLahir.ToString())" Style="width: 100%;" Name="nama" />
+                                  <ValidationMessage For="@(() => Model.Ayah.TahunLahir)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Pendidikan" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Helper.AddWhiteSpaceInTitleCase(Model.Ayah.Pendidikan.ToString()))" Style="width: 100%;" Name="nama" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Pekerjaan" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Helper.AddWhiteSpaceInTitleCase(Model.Ayah.Pekerjaan.ToString()))" Style="width: 100%;" Name="nama" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Penghasilan" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Helper.GetPenghasilanText(Model.Ayah.Penghasilan))" Style="width: 100%;" Name="nama" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                     </RadzenStack>
+                </RadzenTabsItem>
+                <RadzenTabsItem Text="Ibu">
+                     <RadzenStack>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Nama" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Ibu.Nama)" Style="width: 100%;" Name="nama" />
+                                  <ValidationMessage For="@(() => Model.Ibu.Nama)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="NIK" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Ibu.NIK)" Style="width: 100%;" Name="nama" />
+                                  <ValidationMessage For="@(() => Model.Ibu.NIK)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Tahun Lahir" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Ibu.TahunLahir.ToString())" Style="width: 100%;" Name="nama" />
+                                  <ValidationMessage For="@(() => Model.Ibu.TahunLahir)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Pendidikan" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Helper.AddWhiteSpaceInTitleCase(Model.Ibu.Pendidikan.ToString()))" Style="width: 100%;" Name="nama" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Pekerjaan" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Helper.AddWhiteSpaceInTitleCase(Model.Ibu.Pekerjaan.ToString()))" Style="width: 100%;" Name="nama" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Penghasilan" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Helper.GetPenghasilanText(Model.Ibu.Penghasilan))" Style="width: 100%;" Name="nama" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                     </RadzenStack>
+                </RadzenTabsItem>
+                <RadzenTabsItem Text="Kontak">
+                     <RadzenStack>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Telepon" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Kontak.Telepon)" Style="width: 100%;" Name="nama" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Handphone" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Kontak.HP)" Style="width: 100%;" Name="nama" />
+                                  <ValidationMessage For="@(() => Model.Kontak.HP)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Email" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Kontak.Email)" Style="width: 100%;" Name="nama" />
+                                  <ValidationMessage For="@(() => Model.Kontak.Email)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                     </RadzenStack>
+                </RadzenTabsItem>
+                 <RadzenTabsItem Text="Alamat">
+                     <RadzenStack>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Jalan" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Alamat.Jalan)" Style="width: 100%;" Name="nama" />
+                                <ValidationMessage For="@(() => Model.Alamat.Jalan)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="RT/RW" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@($"{Model.Alamat.RT}/{Model.Alamat.RW}")" Style="width: 100%;" Name="rtrw" />
+                                <ValidationMessage For="@(() => Model.Alamat.RT)" />
+                                <ValidationMessage For="@(() => Model.Alamat.RW)" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                         <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Kelurahan" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Alamat.Keluarahan)" Style="width: 100%;" Name="kelurahan" />
+                                <ValidationMessage For="@(() => Model.Alamat.Keluarahan)" />
+
+                            </RadzenColumn>
+                        </RadzenRow>
+                          <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="3">
+                                <RadzenLabel Text="Kecamatan" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="9">
+                                <RadzenTextBox ReadOnly Value="@(Model.Alamat.Kecamatan)" Style="width: 100%;" Name="kecamatan" />
+                                <ValidationMessage For="@(() => Model.Alamat.Kecamatan)" />
+
+                            </RadzenColumn>
+                        </RadzenRow>
+
+                     </RadzenStack>
                 </RadzenTabsItem>
             </Tabs>
         </RadzenTabs>
         <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-mt-8 rz-mb-4">
-            <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
+            <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />    
         </RadzenStack>
     </RadzenTemplateForm>
 }
@@ -75,9 +418,33 @@ else
     [Parameter]
     public int Id { get; set; }
     public CalonPesertaDidik Model { get; set; }
+    private FluentValidationValidator? _fluentValidationValidator;
+    private CalonPesertaDidikValidator validator = new CalonPesertaDidikValidator();
+
     protected override async Task OnInitializedAsync()
     {
-        Model = dbcontext.CalonPesertaDidik.SingleOrDefault(x => x.Id == Id);
+        Model = dbcontext.CalonPesertaDidik
+                .Include(x=>x.Alamat)
+                .Include(x=>x.Periodik)
+                .Include(x=>x.Ayah)
+                .Include(x=>x.Ibu)
+                .Include(x=>x.Kontak)
+        .SingleOrDefault(x => x.Id == Id);
+    }
+
+
+    protected override Task OnAfterRenderAsync(bool firstRender){
+        _fluentValidationValidator.Validate();
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    async Task OnSubmit(CalonPesertaDidik model)
+    {
+        
+    } 
+    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
+    {
+
     }
 
     async Task Delete(CalonPesertaDidik model)

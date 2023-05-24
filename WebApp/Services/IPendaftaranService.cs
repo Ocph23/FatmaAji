@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShareModel;
 using WebApp.Data;
 using WebApp.Models;
 
@@ -11,7 +12,8 @@ namespace WebApp.Services
         Task<CalonPesertaDidik> GetByUserId(string id);
         Task<CalonPesertaDidik> CreateProfile(string userId);
         Task<bool> UpdateProfile(CalonPesertaDidik calonPesertaDidik);
-
+        Task<ItemPersyaratan> AddPersyaratan(int id, ItemPersyaratan model);
+        Task<ItemPersyaratan> UpdatePersyaratan(int id, ItemPersyaratan model);
     }
 
     public class PendaftaranService : IPendaftaranService
@@ -21,6 +23,19 @@ namespace WebApp.Services
         public PendaftaranService(ApplicationDbContext _dbcontext)
         {
             dbcontext = _dbcontext;
+        }
+
+        public Task<ItemPersyaratan> AddPersyaratan(int id, ItemPersyaratan model)
+        {
+            var data = dbcontext.CalonPesertaDidik.Include(x=>x.Persyaratan).FirstOrDefault(x => x.Id == id);
+            if(data is not null)
+            {
+                dbcontext.Entry(model.Persyaratan).State = EntityState.Unchanged;
+                data.Persyaratan.Add(model);
+
+                dbcontext.SaveChanges();
+            }
+            return Task.FromResult(model!);
         }
 
         public Task<CalonPesertaDidik> CreateProfile(string userId)
@@ -63,6 +78,18 @@ namespace WebApp.Services
 
                 throw new SystemException(ex.Message);
             }
+        }
+
+        public Task<ItemPersyaratan> UpdatePersyaratan(int id, ItemPersyaratan model)
+        {
+            var data = dbcontext.CalonPesertaDidik.Include(x => x.Persyaratan)
+                .Where(x=>x.Persyaratan.Where(x=>x.Id==id).Count()>0).SelectMany(x=>x.Persyaratan).FirstOrDefault();
+            if (data is not null)
+            {
+                dbcontext.Entry(data).CurrentValues.SetValues(model);
+                dbcontext.SaveChanges();
+            }
+            return Task.FromResult(model!);
         }
 
         public Task<bool> UpdateProfile(CalonPesertaDidik calonPesertaDidik)

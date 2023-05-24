@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShareModel", "ShareModel\ShareModel.csproj", "{EFDBE118-DFAF-4546-9732-119B68F1C470}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobieApp", "MobieApp\MobieApp.csproj", "{E20F958A-591E-4A42-B84E-24A626D9E50C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{EFDBE118-DFAF-4546-9732-119B68F1C470}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFDBE118-DFAF-4546-9732-119B68F1C470}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFDBE118-DFAF-4546-9732-119B68F1C470}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E20F958A-591E-4A42-B84E-24A626D9E50C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E20F958A-591E-4A42-B84E-24A626D9E50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E20F958A-591E-4A42-B84E-24A626D9E50C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E20F958A-591E-4A42-B84E-24A626D9E50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E20F958A-591E-4A42-B84E-24A626D9E50C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E20F958A-591E-4A42-B84E-24A626D9E50C}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -61,7 +61,7 @@ namespace WebApp.Services
         {
             try
             {
-                var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, false, lockoutOnFailure: false);
+                var result = await signInManager.PasswordSignInAsync(model.UserName.ToUpper(), model.Password, false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     var user = await userManager.FindByEmailAsync(model.UserName);
@@ -130,15 +130,22 @@ namespace WebApp.Services
         {
             try
             {
-                ApplicationUser user = new ApplicationUser { Name = model.Name, Email = model.Email, UserName = model.Email, PasswordHash = GeneratePasswordHash(model.Password) };
-                var userCreated = await userManager.CreateAsync(user);
+                ApplicationUser user = new ApplicationUser { Name = model.Name, Email = model.Email, UserName = model.Email, EmailConfirmed=true};
+                var userCreated = await userManager.CreateAsync(user, model.Password);
                 if (userCreated.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, "Pendaftar");
                     var token = await GenerateJwtToken(user);
                     return new AuthenticateResponse(user.UserName, user.Email, token);
                 }
-                throw new SystemException("");
+
+                string errorMessage=string.Empty;
+                if (userCreated.Errors.Count() > 0)
+                {
+                   errorMessage= userCreated.Errors.FirstOrDefault().Description;
+                }
+
+                throw new SystemException(errorMessage);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,6 @@
-﻿namespace WebApp.Models
+﻿using ShareModel;
+
+namespace WebApp.Models
 {
     public class UserModel
     {

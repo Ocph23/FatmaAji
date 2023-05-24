@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MobieApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MobieApp.Pages"
+    Shell.FlyoutBehavior="Disabled">
+
+    <TabBar>
+        <Tab Title="Home"
+            Icon="monkey.png">
+            <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
+        </Tab>
+        <Tab Title="Data Siswa"
+            Icon="paw.png">
+            <ShellContent Title="Biodata"
+                         ContentTemplate="{DataTemplate local:CalonSiswaPage}" />
+            <ShellContent Title="Kontak"
+                         ContentTemplate="{DataTemplate local:KontakPage}" />
+            <ShellContent Title="Alamat"
+                         ContentTemplate="{DataTemplate local:AlamatPage}" />
+            <ShellContent Title="Periodik"
+                         ContentTemplate="{DataTemplate local:PeriodikPage}" />
+            <ShellContent Title="Ayah"
+                         ContentTemplate="{DataTemplate local:AyahPage}" />
+            <ShellContent Title="Ibu"
+                         ContentTemplate="{DataTemplate local:IbuPage}" />
+        </Tab>
+        <Tab Title="Pengumuman"
+            Icon="monkey.png">
+            <ShellContent ContentTemplate="{DataTemplate local:PengumumanPage}" />
+        </Tab>
+    </TabBar>
+
+</Shell>
