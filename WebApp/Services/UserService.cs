@@ -130,7 +130,7 @@ namespace WebApp.Services
         {
             try
             {
-                ApplicationUser user = new ApplicationUser { Name = model.Name, Email = model.Email, UserName = model.Email, EmailConfirmed=true};
+                ApplicationUser user = new ApplicationUser { Name = model.Name, Email = model.UserName, UserName = model.UserName, EmailConfirmed=true};
                 var userCreated = await userManager.CreateAsync(user, model.Password);
                 if (userCreated.Succeeded)
                 {

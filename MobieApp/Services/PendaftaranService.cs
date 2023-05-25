@@ -9,12 +9,12 @@ namespace MobieApp.Services
         Task<CalonPesertaDidik> GetProfile();
         Task<bool> Update(CalonPesertaDidik calon);
         Task<ItemPersyaratan> AddPersyaratan(int idCalon, ItemPersyaratan model);
-        Task<ItemPersyaratan> UpdatePersyaratan(int idItemPersyaratan, ItemPersyaratan model);
+        Task<string> UpdatePersyaratan(int idItemPersyaratan, MultipartFormDataContent content);
     }
 
     public class PendaftaranService : IPendaftaranService
     {
-        string controller = "/api/persyaratan";
+        string controller = "/api/pendaftaran";
 
         public async Task<ItemPersyaratan> AddPersyaratan(int idCalon, ItemPersyaratan model)
         {
@@ -77,18 +77,18 @@ namespace MobieApp.Services
             }
         }
 
-        public async Task<ItemPersyaratan> UpdatePersyaratan(int idItemPersyaratan, ItemPersyaratan model)
+        public async Task<string> UpdatePersyaratan(int idItemPersyaratan, MultipartFormDataContent content)
         {
             try
             {
                 using var client = new RestService();
-                var response = await client.PutAsync($"{controller}/persyaratan/{idItemPersyaratan}", client.GenerateHttpContent(model));
+                var response = await client.PostAsync($"{controller}/upload/{idItemPersyaratan}", content);
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.GetResult<ItemPersyaratan>();
-                    return result;
+                    return await response.Content.ReadAsStringAsync();
                 }
-                throw new SystemException(await client.Error(response));
+                else
+                    throw new SystemException(await client.Error(response));
             }
             catch (Exception ex)
             {

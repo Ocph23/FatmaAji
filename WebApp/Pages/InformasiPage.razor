@@ -1,0 +1,89 @@
+﻿@page "/informasi"
+@attribute [Authorize(Roles = "Admin")]
+
+@inject DialogService dialogService
+@inject IInformasiService persyaratanService
+@inject NotificationService NotificationService
+
+<h3 style="color:white">Data Informasi</h3>
+
+
+<div style="margin-top:20px; margin-bottom:10px">
+<RadzenButton Click=@(()=> AddAction()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
+</div>
+
+
+<RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false"
+                FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@datas"
+                TItem="Informasi" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Informasi" Property="Tanggal" Width="100px" Title="Tanggal" />
+        <RadzenDataGridColumn TItem="Informasi" Property="Pesan" Title="Keterangan" />
+        <RadzenDataGridColumn TItem="Informasi" Title="Publish" Width="50px">
+            <Template>
+                <RadzenCheckBox ReadOnly @bind-Value="@context.Publish"></RadzenCheckBox>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Informasi" Width="50px">
+            <Template>
+                <RadzenButton Icon="edit" Click=@(()=> Edit(context)) ButtonStyle="ButtonStyle.Warning" />
+                <RadzenButton Click=@(()=> Delete(context)) Icon="remove" ButtonStyle="ButtonStyle.Danger" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+
+
+    ICollection<Informasi> datas;
+    RadzenDataGrid<Informasi> dg;
+    protected override async Task OnInitializedAsync()
+    {
+        var source = await persyaratanService.Get();
+        datas = source.ToList();
+    }
+
+    async Task AddAction()
+    {
+        var result = await dialogService.OpenAsync<InformasiDialog>($"Informasi Baru",
+              new Dictionary<string, object>() { { "Model", new Informasi() } },
+              new DialogOptions() { Width = "800px", Resizable = true, Draggable = true });
+
+        var data = result as Informasi;
+        if (data != null)
+        {
+            datas.Add(data);
+           await dg.Reload();
+        }
+    }
+
+    async Task Edit(Informasi model)
+    {
+        var result = await dialogService.OpenAsync<InformasiDialog>($"Informasi Baru",
+              new Dictionary<string, object>() { { "Model", model } },
+              new DialogOptions() { Width = "800px", Resizable = true, Draggable = true });
+
+        var data = result as Informasi;
+        if (data != null)
+        {
+            await dg.Reload();
+        }
+    }
+
+    async Task Delete(Informasi model)
+    {
+        var dialog = await dialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (dialog!=null && dialog.Value)
+        {
+            var deleted = await persyaratanService.Delete(model.Id);
+            if(deleted)
+            {
+                datas.Remove(model);
+                NotificationService.Notify(new NotificationMessage { Summary = "Succes", Detail = "Data Berhasil Dihapus", Severity = NotificationSeverity.Success });
+               await dg.Reload();
+            }
+        }
+    }
+}

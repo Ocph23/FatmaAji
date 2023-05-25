@@ -27,6 +27,7 @@ public class LoginViewModel:BaseViewModel
     {
 
 		LoginCommand = new Command(LoginAction, LoginValidate);
+		RegisterCommand = new Command(() => { Application.Current.MainPage.Navigation.PushAsync(new RegisterPage()); });
 
 		this.PropertyChanged += (_, __) => {
 			if (__.PropertyName != "LoginCommand")
@@ -84,4 +85,5 @@ public class LoginViewModel:BaseViewModel
 	}
 
     public Command LoginCommand { get; }
+    public Command RegisterCommand { get; private set; }
 }

@@ -39,7 +39,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]CalonPesertaDidik value)
+        public async Task<IActionResult> Put([FromBody] CalonPesertaDidik value)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                ItemPersyaratan result = await pendaftaranService.AddPersyaratan(id,model);
+                ItemPersyaratan result = await pendaftaranService.AddPersyaratan(id, model);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -83,13 +83,16 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("upload/{id}")]
+        [RequestSizeLimit(100 * 1024 * 1024)]
+        [RequestFormLimits(MultipartBodyLengthLimit = 10 * 1024 * 1024)]
         public async Task<IActionResult> Upload(int id, IList<IFormFile> files)
         {
-
-            var httprequest = HttpContext.Request.Form.Files;
-            string filex = string.Empty;
-            foreach (var file in httprequest)
+            try
             {
+                ItemPersyaratan itemPersyaratan = await pendaftaranService.GetItemPersyaratan(id);
+                var httprequest = HttpContext.Request.Form.Files;
+                string filex = string.Empty;
+                var file = httprequest.FirstOrDefault();
                 var fileType = Path.GetExtension(file.FileName);
                 //var ext = file.;
                 if (fileType.ToLower() == ".pdf" || fileType.ToLower() == ".jpg" || fileType.ToLower() == ".png" || fileType.ToLower() == ".jpeg")
@@ -109,15 +112,24 @@ namespace WebApp.Controllers
                             await file.CopyToAsync(stream);
                         }
 
-                        //ItemPersyaratan result = await pendaftaranService.UpdatePersyaratan(id, model);
+                        if (!string.IsNullOrEmpty(itemPersyaratan.FileName) && itemPersyaratan.FileName != filex)
+                        {
+                            System.IO.File.Delete(Path.Combine(filePath, itemPersyaratan.FileName));
+                        }
+                        itemPersyaratan.FileName = filex;
+                        ItemPersyaratan result = await pendaftaranService.UpdatePersyaratan(id, itemPersyaratan);
+                        return Ok(filex);
                     }
                     else
-                    {
-                        return BadRequest();
-                    }
+                        throw new SystemException("Periksa Kembali Dokumen  Anda !");
                 }
+                else
+                    throw new SystemException($"Jenis File {fileType} Tidak Diterima !");
             }
-            return Ok(filex);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -18,7 +18,7 @@
         <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="100px" Property="JenisKelamin" Title="JK" />
         <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="200px" Title="TTL">
             <Template>
-                @($"{context.TempatLahir}, {context.TanggalLahir.ToString("dd/MM/yyyy")}")
+                @($"{context.TempatLahir}, {context.TanggalLahir.Value.ToString("dd/MM/yyyy")}")
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="120px" Property="Kepercayaan" Title="Agama" />

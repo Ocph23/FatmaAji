@@ -1,91 +1,148 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:MobieApp.Models"
              x:Class="MobieApp.Pages.CalonSiswaPage"
              Title="Biodata">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <model:LainnyaConverter x:Key="wnaconverter"></model:LainnyaConverter>
+            <model:FluentErrorConverter x:Key="fluentError"></model:FluentErrorConverter>
+            <model:FluentErrorShowTextConverter x:Key="fluentErrorShowMessage"></model:FluentErrorShowTextConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{Binding SaveText}" Command="{Binding SaveCoomand}"></ToolbarItem>
     </ContentPage.ToolbarItems>
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="5">
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="Nama"></Label>
-                <Frame Style="{StaticResource entryBorder}"  >
-                    <Entry Placeholder="Nama" Text="{Binding Model.Nama}" HorizontalOptions="FillAndExpand"></Entry>
-                </Frame>
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="5">
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="Nama"></Label>
+                    <Frame Style="{StaticResource entryBorder}"  >
+                        <Entry Placeholder="Nama" Text="{Binding Model.Nama}" HorizontalOptions="FillAndExpand">
+                        </Entry>
+                    </Frame>
+                    <Label Style="{StaticResource  InvalidLabelStyle}" 
+                       IsVisible="{Binding Errors, Converter={StaticResource fluentErrorShowMessage }, ConverterParameter=Nama}"
+                       Text="{Binding Errors, Converter={StaticResource fluentError }, ConverterParameter=Nama}"  />
+
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="Jenis Kelamin"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Picker ItemsSource="{Binding JenisKelamins}" ItemDisplayBinding="{Binding Text}" 
+                            SelectedItem="{Binding JenisKelaminSelected}"></Picker>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="Tempat Lahir"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Entry Placeholder="Tempat Lahir" Text="{Binding Model.TempatLahir}" HorizontalOptions="FillAndExpand"></Entry>
+                    </Frame>
+                    <Label Style="{StaticResource InvalidLabelStyle}" 
+                       IsVisible="{Binding Errors, Converter={StaticResource fluentErrorShowMessage }, 
+                    ConverterParameter=TempatLahir}" Text="{Binding Errors, Converter={StaticResource fluentError }, 
+                    ConverterParameter=TempatLahir}"  />
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="Tanggal Lahir"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <DatePicker Date="{Binding Model.TanggalLahir}"></DatePicker>
+                    </Frame>
+                    <Label Style="{StaticResource  InvalidLabelStyle}" 
+                       IsVisible="{Binding Errors, Converter={StaticResource fluentErrorShowMessage }, ConverterParameter=TanggalLahir}"
+                       Text="{Binding Errors, Converter={StaticResource fluentError }, ConverterParameter=TanggalLahir}"  />
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="Agama"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Picker ItemsSource="{Binding Agamas}" ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding AgamaSelected}"></Picker>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="Kewarganegaraan"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Picker x:Name="kewarganegaraanLain1" ItemsSource="{Binding Kewarganegaraans}" 
+                            ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding KewarganegaraanSelected}">
+
+                        </Picker>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout IsVisible="{Binding Source={x:Reference kewarganegaraanLain1},
+                    Path=SelectedItem, 
+                    Converter={StaticResource wnaconverter}}">
+                    <Label Style="{StaticResource entryLabel}" Text="Negara"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Entry Placeholder="Negara" Text="{Binding Model.Negara}" HorizontalOptions="FillAndExpand"></Entry>
+                    </Frame>
+                    <Label Style="{StaticResource InvalidLabelStyle}" Text="{Binding Errors, Converter={StaticResource fluentError }, ConverterParameter=Negara}"  />
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="Tempat Tinggal"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Picker x:Name="tempatinggal" ItemsSource="{Binding TempatTinggals}" ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding TempatTinggalSelected}"></Picker>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout IsVisible="{Binding Source={x:Reference  tempatinggal},
+                    Path=SelectedItem, 
+                    Converter={StaticResource wnaconverter}}">
+                    <Label Style="{StaticResource entryLabel}" Text="Tempat Tinggal Lain"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Entry Placeholder="Tempat Tinggal Lain" Text="{Binding Model.TempatTinggalLain}" HorizontalOptions="FillAndExpand"></Entry>
+                    </Frame>
+                    <Label Style="{StaticResource InvalidLabelStyle}" Text="{Binding Errors, 
+                    Converter={StaticResource fluentError }, ConverterParameter=TempatTinggalLain}"  />
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="Moda Transportasi"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Picker x:Name="modatransportasi" ItemsSource="{Binding ModaTransportasis}" ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding ModaTransportasiSelected}"></Picker>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout IsVisible="{Binding Source={x:Reference   modatransportasi},
+                    Path=SelectedItem, 
+                    Converter={StaticResource wnaconverter}}">
+                    <Label Style="{StaticResource entryLabel}" Text="Moda Transportasi Lain"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Entry Placeholder="Moda Transportasi Lain" Text="{Binding Model.ModaTransportasiLain}" HorizontalOptions="FillAndExpand"></Entry>
+                    </Frame>
+                    <Label Style="{StaticResource InvalidLabelStyle}" Text="{Binding Errors, 
+                    Converter={StaticResource fluentError }, ConverterParameter=ModaTransportasiLain}"  />
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="Anak Ke"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Entry Placeholder="Nama" HorizontalOptions="FillAndExpand" 
+                           Text="{Binding Model.AnakKe}"></Entry>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="KKS"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Entry Placeholder="KKS" Text="{Binding Model.KKS}" HorizontalOptions="FillAndExpand"></Entry>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="KPS"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Entry Placeholder="KPS" Text="{Binding Model.KPS}" HorizontalOptions="FillAndExpand"></Entry>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <Label Style="{StaticResource entryLabel}" Text="PIP"></Label>
+                    <Frame Style="{StaticResource entryBorder}" >
+                        <Entry Placeholder="PIP" Text="{Binding Model.PIP}" HorizontalOptions="FillAndExpand"></Entry>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource formControl}">
+                    <HorizontalStackLayout VerticalOptions="Center">
+                        <Label Style="{StaticResource entryLabel}" VerticalOptions="Center" Text="TK"></Label>
+                        <CheckBox IsChecked="{Binding Model.TK}" ></CheckBox>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
             </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="Jenis Kelamin"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <Picker ItemsSource="{Binding JenisKelamins}"  ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding JenisKelaminSelected}"></Picker>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="Tempat Lahir"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <Entry Placeholder="Nama" HorizontalOptions="FillAndExpand"></Entry>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="Tanggal Lahir"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <DatePicker></DatePicker>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="Agama"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <Picker ItemsSource="{Binding Agamas}" ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding AgamaSelected}"></Picker>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="Kewarganegaraan"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <Picker ItemsSource="{Binding Kewarganegaraans}" ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding KewarganegaraanSelected}"></Picker>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="Tempat Tinggal"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <Picker ItemsSource="{Binding TempatTinggals}" ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding TempatTinggalSelected}"></Picker>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="Moda Transportasi"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <Picker ItemsSource="{Binding ModaTransportasis}" ItemDisplayBinding="{Binding Text}" SelectedItem="{Binding ModaTransportasiSelected}"></Picker>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="Anak Ke"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <Entry Placeholder="Nama" HorizontalOptions="FillAndExpand" Text="{Binding Model.AnakKe}"></Entry>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="KKS"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <Entry Placeholder="Nama" HorizontalOptions="FillAndExpand"></Entry>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="KPS"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <Entry Placeholder="Nama" HorizontalOptions="FillAndExpand"></Entry>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <Label Style="{StaticResource entryLabel}" Text="PIP"></Label>
-                <Frame Style="{StaticResource entryBorder}" >
-                    <Entry Placeholder="Nama" HorizontalOptions="FillAndExpand"></Entry>
-                </Frame>
-            </VerticalStackLayout>
-            <VerticalStackLayout Style="{StaticResource formControl}">
-                <HorizontalStackLayout VerticalOptions="Center">
-                    <Label Style="{StaticResource entryLabel}" VerticalOptions="Center" Text="TK"></Label>
-                    <CheckBox IsChecked="{Binding Model.TK}" ></CheckBox>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-        </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
+        <ActivityIndicator WidthRequest="50" IsRunning="{Binding IsBusy}"></ActivityIndicator>
+    </Grid>
 </ContentPage>

@@ -307,9 +307,11 @@ namespace WebApp.Migrations
                     Nama = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     JenisKelamin = table.Column<int>(type: "int", nullable: false),
+                    NISN = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     TempatLahir = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TanggalLahir = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    TanggalLahir = table.Column<DateOnly>(type: "date", nullable: false),
                     Kepercayaan = table.Column<int>(type: "int", nullable: false),
                     Kewarganegaraan = table.Column<int>(type: "int", nullable: false),
                     Negara = table.Column<string>(type: "longtext", nullable: true)
@@ -364,6 +366,36 @@ namespace WebApp.Migrations
                         column: x => x.PeriodikId,
                         principalTable: "Periodik",
                         principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ItemPersyaratan",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PersyaratanId = table.Column<int>(type: "int", nullable: false),
+                    FileName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Jawaban = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CalonPesertaDidikId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemPersyaratan", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemPersyaratan_CalonPesertaDidik_CalonPesertaDidikId",
+                        column: x => x.CalonPesertaDidikId,
+                        principalTable: "CalonPesertaDidik",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ItemPersyaratan_Persyaratan_PersyaratanId",
+                        column: x => x.PersyaratanId,
+                        principalTable: "Persyaratan",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -428,6 +460,16 @@ namespace WebApp.Migrations
                 name: "IX_CalonPesertaDidik_PeriodikId",
                 table: "CalonPesertaDidik",
                 column: "PeriodikId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemPersyaratan_CalonPesertaDidikId",
+                table: "ItemPersyaratan",
+                column: "CalonPesertaDidikId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemPersyaratan_PersyaratanId",
+                table: "ItemPersyaratan",
+                column: "PersyaratanId");
         }
 
         /// <inheritdoc />
@@ -449,16 +491,19 @@ namespace WebApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CalonPesertaDidik");
-
-            migrationBuilder.DropTable(
-                name: "Persyaratan");
+                name: "ItemPersyaratan");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "CalonPesertaDidik");
+
+            migrationBuilder.DropTable(
+                name: "Persyaratan");
 
             migrationBuilder.DropTable(
                 name: "Alamat");

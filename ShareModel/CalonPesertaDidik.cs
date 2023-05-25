@@ -9,8 +9,8 @@ namespace ShareModel
         private string name=string.Empty;
         private JenisKelamin jk;
         private string tl = string.Empty;
-        private DateOnly tanggalLahir;
-        private string nisn = string.Empty;
+        private DateTime? tanggalLahir = new DateTime(2014,1,1);
+        private string? nisn = string.Empty;
         private Agama agama;
         private Kewarganegaraan kewarganegaraan;
         private string negara = string.Empty;
@@ -30,6 +30,7 @@ namespace ShareModel
         private string kps = string.Empty;
         private string pip = string.Empty;
         private bool tk;
+        private StatusPenerimaan status;
 
         public int Id
         {
@@ -61,7 +62,7 @@ namespace ShareModel
             set { SetProperty(ref tl, value); }
         }
 
-        public DateOnly TanggalLahir
+        public DateTime? TanggalLahir
         {
             get { return tanggalLahir; }
             set { SetProperty(ref tanggalLahir, value); }
@@ -154,6 +155,14 @@ namespace ShareModel
             get { return tk; }
             set { SetProperty(ref tk, value); }
         }
+
+        public StatusPenerimaan Status
+        {
+            get { return status; }
+            set { SetProperty(ref status, value); }
+        }
+
+
         public string UserId
         {
             get { return userId; }

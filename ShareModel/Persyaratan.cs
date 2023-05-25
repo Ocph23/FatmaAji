@@ -7,4 +7,5 @@
         public bool IsUpload { get; set; } = true;
         public string Description { get; set; }
     }
+
 }

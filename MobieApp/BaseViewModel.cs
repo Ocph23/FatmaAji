@@ -1,4 +1,5 @@
-﻿using MobieApp.Services;
+﻿using FluentValidation.Results;
+using MobieApp.Services;
 using ShareModel;
 
 namespace MobieApp
@@ -9,6 +10,7 @@ namespace MobieApp
         public IAccountService AccountStore => DependencyService.Get<IAccountService>();
         public IPendaftaranService PendaftaranStore => DependencyService.Get<IPendaftaranService>();
         public IPersyaratanService PersyaratanStore => DependencyService.Get<IPersyaratanService>();
+        public IInformasiService InformasiStore => DependencyService.Get<IInformasiService>();
 
         private string titile;
 
@@ -27,6 +29,14 @@ namespace MobieApp
 			set { SetProperty(ref isBusy , value); }
 		}
 
+        private List<ValidationFailure> errors;
 
-	}
+        public List<ValidationFailure> Errors
+        {
+            get { return errors; }
+            set { SetProperty(ref errors, value); }
+        }
+
+
+    }
 }

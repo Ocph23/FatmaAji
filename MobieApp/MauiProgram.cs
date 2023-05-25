@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using CommunityToolkit.Maui;
 
 #if __ANDROID__
     using Microsoft.Maui.Controls.Compatibility.Platform.Android;
@@ -13,6 +14,7 @@ namespace MobieApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

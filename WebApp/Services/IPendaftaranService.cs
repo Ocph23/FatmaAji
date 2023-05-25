@@ -14,6 +14,7 @@ namespace WebApp.Services
         Task<bool> UpdateProfile(CalonPesertaDidik calonPesertaDidik);
         Task<ItemPersyaratan> AddPersyaratan(int id, ItemPersyaratan model);
         Task<ItemPersyaratan> UpdatePersyaratan(int id, ItemPersyaratan model);
+        Task<ItemPersyaratan> GetItemPersyaratan(int id);
     }
 
     public class PendaftaranService : IPendaftaranService
@@ -73,6 +74,7 @@ namespace WebApp.Services
                     .Include(x => x.Ibu)
                     .Include(x => x.Ayah)
                     .Include(x => x.Kontak)
+                    .Include(x => x.Persyaratan).ThenInclude(x=>x.Persyaratan)
                     .FirstOrDefault(x => x.UserId == userid);
                 if (data is null)
                     data = await CreateProfile(userid);
@@ -85,10 +87,20 @@ namespace WebApp.Services
             }
         }
 
+        public Task<ItemPersyaratan> GetItemPersyaratan(int id)
+        {
+            var result = dbcontext.CalonPesertaDidik
+                .Include(x => x.Persyaratan)
+                .SelectMany(x => x.Persyaratan).FirstOrDefault(x=>x.Id==id);
+            ArgumentNullException.ThrowIfNull(result);
+            return Task.FromResult(result);
+        }
+
         public Task<ItemPersyaratan> UpdatePersyaratan(int id, ItemPersyaratan model)
         {
-            var data = dbcontext.CalonPesertaDidik.Include(x => x.Persyaratan)
-                .Where(x=>x.Persyaratan.Where(x=>x.Id==id).Count()>0).SelectMany(x=>x.Persyaratan).FirstOrDefault();
+            var data = dbcontext.CalonPesertaDidik
+                .Include(x => x.Persyaratan)
+                .SelectMany(x => x.Persyaratan).FirstOrDefault(x => x.Id == id);
             if (data is not null)
             {
                 dbcontext.Entry(data).CurrentValues.SetValues(model);

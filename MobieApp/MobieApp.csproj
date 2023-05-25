@@ -50,6 +50,11 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\AppIcon\logotutwuri.png" />
+	  <None Remove="Resources\Images\documenttext.png" />
+	  <None Remove="Resources\Images\documentupload.png" />
+	  <None Remove="Resources\Images\email.png" />
+	  <None Remove="Resources\Images\password.png" />
+	  <None Remove="Resources\Images\user.png" />
 	  <None Remove="Resources\Splash\logotutwuri.png" />
 	</ItemGroup>
 
@@ -62,6 +67,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
 
@@ -89,6 +95,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\KontakPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\LogoutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\PengumumanPage.xaml">

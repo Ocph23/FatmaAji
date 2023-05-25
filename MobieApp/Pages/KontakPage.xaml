@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:MobieApp.Models"
              x:Class="MobieApp.Pages.KontakPage"
              Title="Kontak">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <model:LainnyaConverter x:Key="wnaconverter"></model:LainnyaConverter>
+            <model:FluentErrorConverter x:Key="fluentError"></model:FluentErrorConverter>
+            <model:FluentErrorShowTextConverter x:Key="fluentErrorShowMessage"></model:FluentErrorShowTextConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="5">
             <VerticalStackLayout Style="{StaticResource formControl}">
                 <Label Style="{StaticResource entryLabel}" Text="Telepon"></Label>
                 <Frame Style="{StaticResource entryBorder}"  >
-                    <Entry Placeholder="Nama" Text="{Binding Model.Telepon}" HorizontalOptions="FillAndExpand"></Entry>
+                    <Entry Placeholder="Telepon" Text="{Binding Model.Telepon}" HorizontalOptions="FillAndExpand"></Entry>
                 </Frame>
             </VerticalStackLayout>
             <VerticalStackLayout Style="{StaticResource formControl}">
                 <Label Style="{StaticResource entryLabel}" Text="Handphone"></Label>
                 <Frame Style="{StaticResource entryBorder}">
-                    <Entry Placeholder="Nama" Text="{Binding Model.HP}" HorizontalOptions="FillAndExpand"></Entry>
+                    <Entry Placeholder="Handphone" Keyboard="Numeric" Text="{Binding Model.HP}" HorizontalOptions="FillAndExpand"></Entry>
                 </Frame>
+                <Label Style="{StaticResource  InvalidLabelStyle}" 
+                       IsVisible="{Binding Errors, Converter={StaticResource fluentErrorShowMessage }, ConverterParameter=HP}"
+                       Text="{Binding Errors, Converter={StaticResource fluentError }, ConverterParameter=HP}"  />
             </VerticalStackLayout>
             <VerticalStackLayout Style="{StaticResource formControl}">
                 <Label Style="{StaticResource entryLabel}" Text="Email"></Label>
                 <Frame Style="{StaticResource entryBorder}"  >
-                    <Entry Placeholder="Nama" Text="{Binding Model.Email}" HorizontalOptions="FillAndExpand"></Entry>
+                    <Entry Placeholder="Email" Text="{Binding Model.Email}" HorizontalOptions="FillAndExpand"></Entry>
                 </Frame>
+                <Label Style="{StaticResource  InvalidLabelStyle}" 
+                       IsVisible="{Binding Errors, Converter={StaticResource fluentErrorShowMessage }, ConverterParameter=Email}"
+                       Text="{Binding Errors, Converter={StaticResource fluentError }, ConverterParameter=Email}"  />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

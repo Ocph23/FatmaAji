@@ -151,6 +151,147 @@ namespace WebApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ShareModel.Alamat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Jalan")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Kecamatan")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Keluarahan")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RT")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RW")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Alamat");
+                });
+
+            modelBuilder.Entity("ShareModel.CalonPesertaDidik", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AlamatId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AnakKe")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AyahId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IbuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("JenisKelamin")
+                        .HasColumnType("int");
+
+                    b.Property<string>("KKS")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("KPS")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Kepercayaan")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Kewarganegaraan")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("KontakId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModaTransportasi")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModaTransportasiLain")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NISN")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nama")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Negara")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PIP")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("PeriodikId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TK")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("TanggalLahir")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("TempatLahir")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("TempatTinggal")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TempatTinggalLain")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlamatId");
+
+                    b.HasIndex("AyahId");
+
+                    b.HasIndex("IbuId");
+
+                    b.HasIndex("KontakId");
+
+                    b.HasIndex("PeriodikId");
+
+                    b.ToTable("CalonPesertaDidik");
+                });
+
+            modelBuilder.Entity("ShareModel.Informasi", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Pesan")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Publish")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("Tanggal")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Informasi");
+                });
+
             modelBuilder.Entity("ShareModel.ItemPersyaratan", b =>
                 {
                     b.Property<int>("Id")
@@ -163,11 +304,14 @@ namespace WebApp.Migrations
                     b.Property<string>("FileName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Jawaban")
-                        .HasColumnType("longtext");
+                    b.Property<bool?>("Jawaban")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("PersyaratanId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Verifikasi")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -176,6 +320,84 @@ namespace WebApp.Migrations
                     b.HasIndex("PersyaratanId");
 
                     b.ToTable("ItemPersyaratan");
+                });
+
+            modelBuilder.Entity("ShareModel.Kontak", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("HP")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Telepon")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Kontak");
+                });
+
+            modelBuilder.Entity("ShareModel.OrangTua", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("NIK")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nama")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Pekerjaan")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Pendidikan")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Penghasilan")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TahunLahir")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrangTua");
+                });
+
+            modelBuilder.Entity("ShareModel.Periodik", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<double>("Berat")
+                        .HasColumnType("double");
+
+                    b.Property<double>("JarakKeSekolah")
+                        .HasColumnType("double");
+
+                    b.Property<int>("JumlahSaudara")
+                        .HasColumnType("int");
+
+                    b.Property<double>("LingkarKepala")
+                        .HasColumnType("double");
+
+                    b.Property<double>("Tinggi")
+                        .HasColumnType("double");
+
+                    b.Property<TimeSpan>("WaktuTempuh")
+                        .HasColumnType("time(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Periodik");
                 });
 
             modelBuilder.Entity("ShareModel.Persyaratan", b =>
@@ -268,198 +490,6 @@ namespace WebApp.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("WebApp.Models.Alamat", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Jalan")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Kecamatan")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Keluarahan")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("RT")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("RW")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Alamat");
-                });
-
-            modelBuilder.Entity("WebApp.Models.CalonPesertaDidik", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AlamatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AnakKe")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AyahId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IbuId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("JenisKelamin")
-                        .HasColumnType("int");
-
-                    b.Property<string>("KKS")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("KPS")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Kepercayaan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Kewarganegaraan")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("KontakId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ModaTransportasi")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ModaTransportasiLain")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Nama")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Negara")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PIP")
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("PeriodikId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("TK")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateOnly>("TanggalLahir")
-                        .HasColumnType("date");
-
-                    b.Property<string>("TempatLahir")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("TempatTinggal")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TempatTinggalLain")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AlamatId");
-
-                    b.HasIndex("AyahId");
-
-                    b.HasIndex("IbuId");
-
-                    b.HasIndex("KontakId");
-
-                    b.HasIndex("PeriodikId");
-
-                    b.ToTable("CalonPesertaDidik");
-                });
-
-            modelBuilder.Entity("WebApp.Models.Kontak", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("HP")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Telepon")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Kontak");
-                });
-
-            modelBuilder.Entity("WebApp.Models.OrangTua", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("NIK")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Nama")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Pekerjaan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pendidikan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Penghasilan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TahunLahir")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OrangTua");
-                });
-
-            modelBuilder.Entity("WebApp.Models.Periodik", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<double>("Berat")
-                        .HasColumnType("double");
-
-                    b.Property<double>("JarakKeSekolah")
-                        .HasColumnType("double");
-
-                    b.Property<int>("JumlahSaudara")
-                        .HasColumnType("int");
-
-                    b.Property<double>("LingkarKepala")
-                        .HasColumnType("double");
-
-                    b.Property<double>("Tinggi")
-                        .HasColumnType("double");
-
-                    b.Property<TimeSpan>("WaktuTempuh")
-                        .HasColumnType("time(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Periodik");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -511,40 +541,25 @@ namespace WebApp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ShareModel.ItemPersyaratan", b =>
+            modelBuilder.Entity("ShareModel.CalonPesertaDidik", b =>
                 {
-                    b.HasOne("WebApp.Models.CalonPesertaDidik", null)
-                        .WithMany("Persyaratan")
-                        .HasForeignKey("CalonPesertaDidikId");
-
-                    b.HasOne("ShareModel.Persyaratan", "Persyaratan")
-                        .WithMany()
-                        .HasForeignKey("PersyaratanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Persyaratan");
-                });
-
-            modelBuilder.Entity("WebApp.Models.CalonPesertaDidik", b =>
-                {
-                    b.HasOne("WebApp.Models.Alamat", "Alamat")
+                    b.HasOne("ShareModel.Alamat", "Alamat")
                         .WithMany()
                         .HasForeignKey("AlamatId");
 
-                    b.HasOne("WebApp.Models.OrangTua", "Ayah")
+                    b.HasOne("ShareModel.OrangTua", "Ayah")
                         .WithMany()
                         .HasForeignKey("AyahId");
 
-                    b.HasOne("WebApp.Models.OrangTua", "Ibu")
+                    b.HasOne("ShareModel.OrangTua", "Ibu")
                         .WithMany()
                         .HasForeignKey("IbuId");
 
-                    b.HasOne("WebApp.Models.Kontak", "Kontak")
+                    b.HasOne("ShareModel.Kontak", "Kontak")
                         .WithMany()
                         .HasForeignKey("KontakId");
 
-                    b.HasOne("WebApp.Models.Periodik", "Periodik")
+                    b.HasOne("ShareModel.Periodik", "Periodik")
                         .WithMany()
                         .HasForeignKey("PeriodikId");
 
@@ -559,7 +574,22 @@ namespace WebApp.Migrations
                     b.Navigation("Periodik");
                 });
 
-            modelBuilder.Entity("WebApp.Models.CalonPesertaDidik", b =>
+            modelBuilder.Entity("ShareModel.ItemPersyaratan", b =>
+                {
+                    b.HasOne("ShareModel.CalonPesertaDidik", null)
+                        .WithMany("Persyaratan")
+                        .HasForeignKey("CalonPesertaDidikId");
+
+                    b.HasOne("ShareModel.Persyaratan", "Persyaratan")
+                        .WithMany()
+                        .HasForeignKey("PersyaratanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Persyaratan");
+                });
+
+            modelBuilder.Entity("ShareModel.CalonPesertaDidik", b =>
                 {
                     b.Navigation("Persyaratan");
                 });

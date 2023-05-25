@@ -14,6 +14,8 @@ public partial class AyahPage : ContentPage
 
 public class AyahViewModel:BaseViewModel
 {
+    private OratuaValidator validator = new OratuaValidator();
+
     public AyahViewModel()
     {
         foreach (var item in Enum.GetValues(typeof(Pendidikan)).Cast<Pendidikan>().ToList())
@@ -30,6 +32,13 @@ public class AyahViewModel:BaseViewModel
         PekerjaanSelected = Pekerjaans.SingleOrDefault(x => x.Value == Model.Pekerjaan);
         PenghasilanSelected = Penghasilans.SingleOrDefault(x => x.Value == Model.Penghasilan);
 
+        Model.PropertyChanged += Model_PropertyChanged;
+
+    }
+
+    private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        Errors = validator.Validate(Model).Errors;
     }
 
     public List<EnumModel<Pendidikan>> Pendidikans { get; private set; }    = new List<EnumModel<Pendidikan>>();
@@ -48,6 +57,7 @@ public class AyahViewModel:BaseViewModel
         {
             SetProperty(ref pendidikanSelected, value);
             Model.Pendidikan = value.Value;
+
         }
     }
 

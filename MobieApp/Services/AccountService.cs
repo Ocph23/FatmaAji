@@ -55,7 +55,7 @@ namespace MobieApp.Services
             try
             {
                 using var client = new RestService();
-                var response = await client.PostAsync($"{controller}/login", client.GenerateHttpContent(new RegisterRequest(name, email, Password)));
+                var response = await client.PostAsync($"{controller}/register", client.GenerateHttpContent(new RegisterRequest(name, email, Password)));
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.GetResult<AuthenticateResponse>();
@@ -63,18 +63,7 @@ namespace MobieApp.Services
                     {
                         await Account.SetUser(result);
                         client.SetToken(result.Token);
-                        response = await client.GetAsync($"pendataran/profile");
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var profile = await response.GetResult<CalonPesertaDidik>();
-                            if (profile != null)
-                            {
-                                await Account.SetProfile(profile);
-                                return true;
-                            }
-                        }
-                        else
-                            throw new SystemException(await client.Error(response));
+                        return true;
                     }
                     return false;
                 }

@@ -7,12 +7,10 @@
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
-        <Tab Title="Home"
-            Icon="monkey.png">
+        <Tab Title="Home">
             <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
         </Tab>
-        <Tab Title="Data Siswa"
-            Icon="paw.png">
+        <Tab Title="Data Siswa">
             <ShellContent Title="Biodata"
                          ContentTemplate="{DataTemplate local:CalonSiswaPage}" />
             <ShellContent Title="Kontak"
@@ -28,9 +26,11 @@
             <ShellContent Title="Persyaratan"
                          ContentTemplate="{DataTemplate local:PersyaratanPage}" />
         </Tab>
-        <Tab Title="Pengumuman"
-            Icon="monkey.png">
+        <Tab Title="Pengumuman">
             <ShellContent ContentTemplate="{DataTemplate local:PengumumanPage}" />
+        </Tab>
+        <Tab Title="Logout">
+            <ShellContent ContentTemplate="{DataTemplate local:LogoutPage}" />
         </Tab>
     </TabBar>
 

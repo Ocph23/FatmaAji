@@ -27,8 +27,6 @@ public class CalonSiswaViewModel : BaseViewModel
 
     public CalonSiswaViewModel()
     {
-
-
         foreach (var item in Enum.GetValues(typeof(Agama)).Cast<Agama>().ToList())
             Agamas.Add(new EnumModel<Agama>(item, ShareModel.Helper.AddWhiteSpaceInTitleCase(item.ToString())));
 
@@ -53,21 +51,26 @@ public class CalonSiswaViewModel : BaseViewModel
         JenisKelaminSelected = JenisKelamins.SingleOrDefault(x => x.Value == Model.JenisKelamin);
         TempatTinggalSelected = TempatTinggals.SingleOrDefault(x => x.Value == Model.TempatTinggal);
         ModaTransportasiSelected = ModaTransportasis.SingleOrDefault(x => x.Value == Model.ModaTransportasi);
-
-
         SaveCoomand = new Command(SaveAction, SaveValidate);
+        Model.PropertyChanged += Model_PropertyChanged;
+
+
     }
 
+    private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != "SaveCoomand")
+        {
+            SaveCoomand.ChangeCanExecute();
+            Errors = validator.Validate(Model).Errors;
+        }
+    }
 
     private bool SaveValidate(object arg)
     {
         var resultValidator = validator.Validate(Model);
-        if (!resultValidator.IsValid)
-        {
-            SaveText = "Simpan";
-            return false;
-        }
-        SaveText = "Kirim";
+        Errors = resultValidator.Errors;
+        SaveText = resultValidator.IsValid ? "Kirim" : "Simpan";
         return true;
     }
 
@@ -75,9 +78,10 @@ public class CalonSiswaViewModel : BaseViewModel
     {
         try
         {
+            IsBusy = true;
             await Account.SetProfile(Account.Profile);
             var resultValidator = validator.Validate(Model);
-            if (!resultValidator.IsValid)
+            if (resultValidator.IsValid)
             {
                 var updated = await PendaftaranStore.Update(Model);
                 await MessageHelper.InfoAsync("Data Berhasil Dikirim !");
@@ -89,6 +93,7 @@ public class CalonSiswaViewModel : BaseViewModel
         {
             await MessageHelper.ErrorAsync(ex.Message);
         }
+        finally { IsBusy = false; }
 
 
     }

@@ -9,7 +9,7 @@ namespace ShareModel
         {
             RuleFor(x => x.Nama).NotEmpty();
             RuleFor(x => x.TempatLahir).NotEmpty();
-            RuleFor(x => x.TanggalLahir).GreaterThanOrEqualTo(DateOnly.FromDateTime(new DateTime(2015,1,1)));
+            RuleFor(x => x.TanggalLahir).GreaterThan(new DateTime(2014,1,1));
             RuleFor(x => x.Negara).NotEmpty().When(x=>x.Kewarganegaraan== ShareModel.Kewarganegaraan.WNA);
             RuleFor(x => x.ModaTransportasiLain).NotEmpty().When(x=>x.ModaTransportasi== ShareModel.ModaTransportasi.Lainnya);
             RuleFor(x => x.TempatTinggalLain).NotEmpty().When(x=>x.TempatTinggal== ShareModel.TempatTinggal.Lainnya);

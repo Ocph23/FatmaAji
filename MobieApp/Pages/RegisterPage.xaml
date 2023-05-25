@@ -2,45 +2,72 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MobieApp.Pages.RegisterPage"
-             Title="Login Page">
-    <Grid RowDefinitions="40*, 50*, 10*" Padding="40">
+            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="Register">
+    <Grid RowDefinitions="auto, *, auto" Padding="40,20">
+        <StackLayout>
+            <Image VerticalOptions="Center" Source="tutwuri.png" WidthRequest="100"></Image>
+            <Label Margin="5" Text="Register" FontSize="20"></Label>
+        </StackLayout>
 
-        <Grid>
-            <Image VerticalOptions="Center" Source="tutwuri.png" WidthRequest="150"></Image>
-        </Grid>
-        
-        <StackLayout Grid.Row="1">
-            <Label Text="Register" FontSize="20"></Label>
-            <Frame Style="{StaticResource entryBorder}">
-                <HorizontalStackLayout>
-                    <Image Source="dotnet_bot.png" WidthRequest="20"></Image>
-                    <Entry Text="{Binding Name}"  Placeholder="User Name"></Entry>
-                </HorizontalStackLayout>
-            </Frame>
-            <Frame Style="{StaticResource entryBorder}">
-                <HorizontalStackLayout>
-                    <Image Source="dotnet_bot.png" WidthRequest="20"></Image>
-                    <Entry Text="{Binding UserName}"  Placeholder="User Name"></Entry>
-                </HorizontalStackLayout>
-            </Frame>
+        <StackLayout Grid.Row="1" Margin="0,20,0,0" Spacing="8">
+            <VerticalStackLayout>
+                <Label Style="{StaticResource entryLabel}" Text="Nama"></Label>
+                <Frame Style="{StaticResource entryBorder}" HeightRequest="50">
+                    <Grid ColumnDefinitions="auto,*">
+                        <Image Style="{StaticResource entryIcon}"  Source="user.png"></Image>
+                        <Entry Grid.Column="1" Text="{Binding Model.Name}"  Placeholder="Nama">
+                            <Entry.Behaviors>
+                                <toolkit:TextValidationBehavior 
+                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                ValidStyle="{StaticResource ValidEntryStyle}"
+                Flags="ValidateOnValueChanged"
+                MinimumLength="3"/>
+                            </Entry.Behaviors>
 
-            <Frame Style="{StaticResource entryBorder}">
-                <HorizontalStackLayout>
-                    <Image Source="dotnet_bot.png" WidthRequest="20"></Image>
-                    <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Password"></Entry>
-                </HorizontalStackLayout>
-            </Frame>
-            <Frame Style="{StaticResource entryBorder}">
-                <HorizontalStackLayout>
-                    <Image Source="dotnet_bot.png" WidthRequest="20"></Image>
-                    <Entry Text="{Binding ConfirmPassword}" IsPassword="True" Placeholder="Password"></Entry>
-                </HorizontalStackLayout>
-            </Frame>
+                        </Entry >
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Style="{StaticResource entryLabel}" Text="Email"></Label>
+                <Frame Style="{StaticResource entryBorder}">
+                    <Grid ColumnDefinitions="auto,*">
+                        <Image Style="{StaticResource entryIcon}"  Source="email.png"></Image>
+                        <Entry Grid.Column="1"  Text="{Binding Model.Email}"  Placeholder="Email">
+                            <Entry.Behaviors>
+                                <toolkit:EmailValidationBehavior 
+                                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                    ValidStyle="{StaticResource ValidEntryStyle}"
+                                    Flags="ValidateOnValueChanged" />
+                            </Entry.Behaviors>
+                        </Entry >
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Style="{StaticResource entryLabel}" Text="Password"></Label>
+                <Frame Style="{StaticResource entryBorder}">
+                    <Grid ColumnDefinitions="auto,*">
+                        <Image Style="{StaticResource entryIcon}"  Source="password.png"></Image>
+                        <Entry Grid.Column="1"  Text="{Binding Model.Password}" IsPassword="True" Placeholder="Password"></Entry >
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Style="{StaticResource entryLabel}" Text="Confirm Password"></Label>
+                <Frame Style="{StaticResource entryBorder}">
+                    <Grid ColumnDefinitions="auto,*">
+                        <Image Style="{StaticResource entryIcon}"  Source="password.png"></Image>
+                        <Entry Grid.Column="1"  Text="{Binding Model.ConfirmPassword}" IsPassword="True" Placeholder="Password"></Entry >
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
             <HorizontalStackLayout>
-                <CheckBox IsChecked ="{Binding IsZonasi}"></CheckBox>
-                <Label Text="Anda Masuk Dalam Area Zonasi ?" ToolTipProperties.Text="Zonasi Meliput: Pantai Tanjung Ria Hingga Dok IX"></Label>
+                <CheckBox IsChecked ="{Binding Model.IsZonasi}"></CheckBox>
+                <Label VerticalOptions="Center" Text="Anda Masuk Dalam Area Zonasi ?" ToolTipProperties.Text="Zonasi Meliput: Pantai Tanjung Ria Hingga Dok IX"></Label>
             </HorizontalStackLayout>
-            <Button Margin="5" HeightRequest="60" Text="LOGIN" Command="{Binding RegisterCommand}"></Button>
+            <Button Margin="5" HeightRequest="50" Text="Register" Command="{Binding RegisterCommand}"></Button>
         </StackLayout>
         <StackLayout Grid.Row="2">
             <Label Text="DINAS PENDIDIKAN DAN KEBUDAYAAN"  HorizontalOptions="Center"></Label>

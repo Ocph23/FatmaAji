@@ -12,6 +12,7 @@ namespace MobieApp
             DependencyService.Register<IAccountService, AccountService>();
             DependencyService.Register<IPendaftaranService, PendaftaranService>();
             DependencyService.Register<IPersyaratanService, PersyaratanService>();
+            DependencyService.Register<IInformasiService, InformasiService>();
 
             if(Account.UserIsLogin)
             {

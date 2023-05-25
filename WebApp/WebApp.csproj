@@ -34,4 +34,13 @@
     <ProjectReference Include="..\ShareModel\ShareModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\PersyaratanDialog.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Pages\PersyaratanPage.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>

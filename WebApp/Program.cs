@@ -31,6 +31,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPendaftaranService, PendaftaranService>();
 builder.Services.AddScoped<IPersyaratanService,PersyaratanService>();
+builder.Services.AddScoped<IInformasiService, InformasiService>();
 
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
