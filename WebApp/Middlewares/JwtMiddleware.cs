@@ -55,8 +55,8 @@ namespace WebApp
                     ValidIssuer = _appSettings.Issuer,
                     ValidAudience = _appSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                   

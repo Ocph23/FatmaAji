@@ -5,21 +5,33 @@
 @inject IInformasiService persyaratanService
 @inject NotificationService NotificationService
 
-<h3 style="color:white">Data Informasi</h3>
+<h3 class="main-title">Data Informasi</h3>
 
 
 <div style="margin-top:20px; margin-bottom:10px">
-<RadzenButton Click=@(()=> AddAction()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
+    <RadzenButton Click=@(()=> AddAction()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
 </div>
 
+
+@if (datas == null || datas.Count <= 0)
+{
+    <RadzenAlert AllowClose=false AlertStyle="AlertStyle.Warning" Variant="Variant.Flat" Shade="Shade.Lighter">
+        Belum Ada Data Penerimaan Siswa.
+    </RadzenAlert>
+}
 
 <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false"
                 FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
                 Data="@datas"
                 TItem="Informasi" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
     <Columns>
+        <RadzenDataGridColumn TItem="Informasi" Title="NO" Width="50px">
+            <Template>
+                @(datas.IndexOf(context) + 1)
+            </Template>
+        </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="Informasi" Property="Tanggal" Width="100px" Title="Tanggal" />
-        <RadzenDataGridColumn TItem="Informasi" Property="Pesan" Title="Keterangan" />
+        <RadzenDataGridColumn TItem="Informasi" Property="Judul" Title="Judul" />
         <RadzenDataGridColumn TItem="Informasi" Title="Publish" Width="50px">
             <Template>
                 <RadzenCheckBox ReadOnly @bind-Value="@context.Publish"></RadzenCheckBox>
@@ -34,10 +46,11 @@
     </Columns>
 </RadzenDataGrid>
 
+
 @code {
 
 
-    ICollection<Informasi> datas;
+    List<Informasi> datas;
     RadzenDataGrid<Informasi> dg;
     protected override async Task OnInitializedAsync()
     {
@@ -49,13 +62,13 @@
     {
         var result = await dialogService.OpenAsync<InformasiDialog>($"Informasi Baru",
               new Dictionary<string, object>() { { "Model", new Informasi() } },
-              new DialogOptions() { Width = "800px", Resizable = true, Draggable = true });
+              new DialogOptions() { Width = "80%", Resizable = true, Draggable = true });
 
         var data = result as Informasi;
         if (data != null)
         {
             datas.Add(data);
-           await dg.Reload();
+            await dg.Reload();
         }
     }
 
@@ -75,14 +88,14 @@
     async Task Delete(Informasi model)
     {
         var dialog = await dialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
-        if (dialog!=null && dialog.Value)
+        if (dialog != null && dialog.Value)
         {
             var deleted = await persyaratanService.Delete(model.Id);
-            if(deleted)
+            if (deleted)
             {
                 datas.Remove(model);
                 NotificationService.Notify(new NotificationMessage { Summary = "Succes", Detail = "Data Berhasil Dihapus", Severity = NotificationSeverity.Success });
-               await dg.Reload();
+                await dg.Reload();
             }
         }
     }

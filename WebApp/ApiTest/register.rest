@@ -1,7 +1,7 @@
-@url = https://jppqzss6-7113.asse.devtunnels.ms/api
-@token = bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJlNGUyNmM2LTA0ODItNGFiZi04OGQzLTA2ZTVmMjRhOTNlMSIsIm5hbWUiOiJPY3BoMjMiLCJzdWIiOiJvY3BoMjNAZ21haWwuY29tIiwiZW1haWwiOiJvY3BoMjNAZ21haWwuY29tIiwianRpIjoiMGZkMTY3NzktYTBmOC00Y2U5LTk4ZDYtOTVlNjE3NmYzZWE3IiwibmJmIjoxNjg0NzE5Mjg3LCJleHAiOjE2ODUzMjQwODcsImlhdCI6MTY4NDcxOTI4NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyJ9.pSlpZA1dR4PJhAu4hlArAQ45qUU3C_aZTzZAR0x6CX8N2rT-d2ANzZVGzlEL4TDMdV5PmVQmMYel_S4PK9qIYQ
+@url = https://localhost:7113/api
+@token = bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzRkZDJiLWRmNzYtNGYyMC1hNjcwLTgxMjk5MTRiNTdmZiIsIm5hbWUiOiJBZG1pbiIsInN1YiI6Im9jcGgyMy50ZXN0QGdtYWlsLmNvbSIsImVtYWlsIjoib2NwaDIzLnRlc3RAZ21haWwuY29tIiwianRpIjoiOTk2YWY0NGYtN2UyNC00NWYxLThiZTEtODc4NjBkM2MzM2M4IiwibmJmIjoxNjg1Mzc1NTA1LCJleHAiOjE2ODU5ODAzMDUsImlhdCI6MTY4NTM3NTUwNX0.jNIBvInSxvndy4CT5rIkM4FBh9r7n3YOzHIzb1VXF52NsuyhGJPh8Yx2ZVAxvcPEGpV_aneMUqa7fLx3W69IWg
 
-POST  https://jppqzss6-7113.asse.devtunnels.ms/api/account/register 
+POST  {{url}}/account/register 
 Content-Type: application/json
 
 {
@@ -12,11 +12,11 @@ Content-Type: application/json
 
 ##########
 
-POST  {{url}}/account/login 
+POST {{url}}/account/login 
 Content-Type: application/json
 
 {
-    "UserName":"ocph23@gmail.com",
+    "UserName":"ocph23.test@gmail.com",
     "Password":"Sony@77"
 }
 

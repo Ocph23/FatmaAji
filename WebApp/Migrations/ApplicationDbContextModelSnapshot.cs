@@ -177,6 +177,26 @@ namespace WebApp.Migrations
                     b.ToTable("Alamat");
                 });
 
+            modelBuilder.Entity("ShareModel.AntrianZonasi", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Akhir")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("Mulai")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Nama")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AntrianZonasi");
+                });
+
             modelBuilder.Entity("ShareModel.CalonPesertaDidik", b =>
                 {
                     b.Property<int>("Id")
@@ -257,6 +277,9 @@ namespace WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("ZonasiId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AlamatId");
@@ -269,6 +292,8 @@ namespace WebApp.Migrations
 
                     b.HasIndex("PeriodikId");
 
+                    b.HasIndex("ZonasiId");
+
                     b.ToTable("CalonPesertaDidik");
                 });
 
@@ -278,7 +303,10 @@ namespace WebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Pesan")
+                    b.Property<string>("Isi")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Judul")
                         .HasColumnType("longtext");
 
                     b.Property<bool>("Publish")
@@ -563,6 +591,12 @@ namespace WebApp.Migrations
                         .WithMany()
                         .HasForeignKey("PeriodikId");
 
+                    b.HasOne("ShareModel.AntrianZonasi", "Zonasi")
+                        .WithMany()
+                        .HasForeignKey("ZonasiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Alamat");
 
                     b.Navigation("Ayah");
@@ -572,6 +606,8 @@ namespace WebApp.Migrations
                     b.Navigation("Kontak");
 
                     b.Navigation("Periodik");
+
+                    b.Navigation("Zonasi");
                 });
 
             modelBuilder.Entity("ShareModel.ItemPersyaratan", b =>

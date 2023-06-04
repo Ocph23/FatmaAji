@@ -6,11 +6,21 @@
              Title="Register">
     <Grid RowDefinitions="auto, *, auto" Padding="40,20">
         <StackLayout>
-            <Image VerticalOptions="Center" Source="tutwuri.png" WidthRequest="100"></Image>
-            <Label Margin="5" Text="Register" FontSize="20"></Label>
+            <Image VerticalOptions="Center" Source="tutwuri.png" WidthRequest="75"></Image>
+            <Label Margin="5" Text="Register Pengguna" FontSize="20"></Label>
         </StackLayout>
 
-        <StackLayout Grid.Row="1" Margin="0,20,0,0" Spacing="8">
+        <ScrollView Grid.Row="1">
+        <StackLayout  Margin="0,20,0,0" Spacing="8">
+            <VerticalStackLayout>
+                <Label Style="{StaticResource entryLabel}" Text="Zonasi"></Label>
+                <Frame Style="{StaticResource entryBorder}" HeightRequest="50">
+                    <Grid ColumnDefinitions="auto,*">
+                        <Image Style="{StaticResource entryIcon}"  Source="zona.png"></Image>
+                        <Picker Grid.Column="1" ItemsSource="{Binding DataZonasi}" ItemDisplayBinding="{Binding Nama}" SelectedItem="{Binding Model.Zonasi}"></Picker>
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
             <VerticalStackLayout>
                 <Label Style="{StaticResource entryLabel}" Text="Nama"></Label>
                 <Frame Style="{StaticResource entryBorder}" HeightRequest="50">
@@ -24,7 +34,6 @@
                 Flags="ValidateOnValueChanged"
                 MinimumLength="3"/>
                             </Entry.Behaviors>
-
                         </Entry >
                     </Grid>
                 </Frame>
@@ -63,12 +72,10 @@
                     </Grid>
                 </Frame>
             </VerticalStackLayout>
-            <HorizontalStackLayout>
-                <CheckBox IsChecked ="{Binding Model.IsZonasi}"></CheckBox>
-                <Label VerticalOptions="Center" Text="Anda Masuk Dalam Area Zonasi ?" ToolTipProperties.Text="Zonasi Meliput: Pantai Tanjung Ria Hingga Dok IX"></Label>
-            </HorizontalStackLayout>
+         
             <Button Margin="5" HeightRequest="50" Text="Register" Command="{Binding RegisterCommand}"></Button>
         </StackLayout>
+        </ScrollView>
         <StackLayout Grid.Row="2">
             <Label Text="DINAS PENDIDIKAN DAN KEBUDAYAAN"  HorizontalOptions="Center"></Label>
             <Label Text="SEKOLAH DASAR NEGERI INPRES TANJUNG RIA"  HorizontalOptions="Center"></Label>

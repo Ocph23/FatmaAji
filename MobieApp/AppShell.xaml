@@ -10,8 +10,11 @@
         <Tab Title="Home">
             <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
         </Tab>
+        <Tab Title="Informasi">
+            <ShellContent ContentTemplate="{DataTemplate local:PengumumanPage}" />
+        </Tab>
         <Tab Title="Data Siswa">
-            <ShellContent Title="Biodata"
+            <ShellContent Title="Biodata" 
                          ContentTemplate="{DataTemplate local:CalonSiswaPage}" />
             <ShellContent Title="Kontak"
                          ContentTemplate="{DataTemplate local:KontakPage}" />
@@ -25,9 +28,11 @@
                          ContentTemplate="{DataTemplate local:IbuPage}" />
             <ShellContent Title="Persyaratan"
                          ContentTemplate="{DataTemplate local:PersyaratanPage}" />
+         
         </Tab>
-        <Tab Title="Pengumuman">
-            <ShellContent ContentTemplate="{DataTemplate local:PengumumanPage}" />
+
+        <Tab Title="Status" IsVisible="{Binding ShowStatus}">
+            <ShellContent ContentTemplate="{DataTemplate local:StatusPage}" />
         </Tab>
         <Tab Title="Logout">
             <ShellContent ContentTemplate="{DataTemplate local:LogoutPage}" />

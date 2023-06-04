@@ -23,7 +23,7 @@ public partial class PersyaratanViewModel : BaseViewModel
     public CalonPesertaDidik Permohonan { get; set; }
     public PersyaratanViewModel()
     {
-        UploadCommand = new Command(async (x)=>await UploadAction(x));
+        UploadCommand = new Command(async (x) => await UploadAction(x));
         this.Permohonan = Account.Profile;
         _ = LoadData();
     }
@@ -39,7 +39,7 @@ public partial class PersyaratanViewModel : BaseViewModel
                 Datas.Clear();
                 foreach (var item in Permohonan.Persyaratan)
                 {
-                    Datas.Add(new DataPersyaratan() {Persyaratan=item.Persyaratan, FileName=item.FileName,  Id=item.Id });
+                    Datas.Add(new DataPersyaratan() { Persyaratan = item.Persyaratan, FileName = item.FileName, Id = item.Id });
                 }
             }
         }
@@ -49,13 +49,13 @@ public partial class PersyaratanViewModel : BaseViewModel
         }
         finally
         {
-            IsBusy =false;
+            IsBusy = false;
         }
     }
 
     public async Task UploadAction(object obj)
     {
-        if(obj is DataPersyaratan syarat)
+        if (obj is DataPersyaratan syarat)
         {
             var data = await PickAndShow(syarat, new PickOptions { FileTypes = FilePickerFileType.Pdf, PickerTitle = "Dokumen" });
         }
@@ -67,6 +67,7 @@ public partial class PersyaratanViewModel : BaseViewModel
     {
         try
         {
+            IsBusy = true;
             var result = await FilePicker.Default.PickAsync(options);
             if (result != null)
             {
@@ -79,24 +80,28 @@ public partial class PersyaratanViewModel : BaseViewModel
                     content.Add(new StreamContent(await result.OpenReadAsync()), "file", result.FileName);
                     string fileName = await PendaftaranStore.UpdatePersyaratan(syarat.Id, content);
                     var data = this.Permohonan.Persyaratan.SingleOrDefault(x => x.Id == syarat.Id);
-                    if(data!=null)
+                    if (data != null)
                     {
                         data.FileName = fileName;
                         syarat.FileName = fileName;
-                       await Account.SetProfile(Permohonan);
+                        await Account.SetProfile(Permohonan);
                     }
 
                 }
                 else
                 {
-                   await MessageHelper.ErrorAsync("Dokumen Harus Dalam Bentuk PDF");
+                    await MessageHelper.ErrorAsync("Dokumen Harus Dalam Bentuk PDF");
                 }
-            }      
+            }
             return result;
         }
         catch (Exception ex)
         {
             await MessageHelper.ErrorAsync(ex.Message);
+        }
+        finally
+        {
+            IsBusy = false;
         }
 
         return null;

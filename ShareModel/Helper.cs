@@ -16,6 +16,9 @@ namespace ShareModel
         }
 
 
+       
+
+
         public static string GetPenghasilanText(Penghasilan x)
         {
             switch (x)

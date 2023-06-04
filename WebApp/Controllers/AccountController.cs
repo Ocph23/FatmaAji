@@ -12,20 +12,23 @@ namespace WebApp.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserService userService;
+        private readonly IAntrianZonasiService zonasiService;
 
-        public AccountController(IUserService _userService)
+        public AccountController(IUserService _userService, IAntrianZonasiService _zonasiService)
         {
             userService = _userService;
+            zonasiService = _zonasiService;
         }
 
 
-        [ApiAuthorize(Roles ="Pendaftar, Admin")]
+        [ApiAuthorize(Roles = "Pendaftar, Admin")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
 
             return Ok(new List<string>());
         }
+
 
         // POST api/<AccountController>
         [HttpPost("register")]
@@ -59,6 +62,16 @@ namespace WebApp.Controllers
         }
 
 
-      
+
+        [HttpGet("zonasi")]
+        public async Task<IActionResult> GetZonasi()
+        {
+              return Ok(await zonasiService.Get());   
+           
+
+        }
+
+
+
     }
 }

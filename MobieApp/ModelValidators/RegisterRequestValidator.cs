@@ -11,7 +11,7 @@ namespace ShareModel
             RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.Password).Equal(x=>x.ConfirmPassword);
             RuleFor(x => x.ConfirmPassword).NotEmpty();
-            RuleFor(x => x.IsZonasi).Equal(true);
+            RuleFor(x => x.Zonasi).NotNull();
         }
     }
 }

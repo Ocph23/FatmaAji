@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MobieApp.Pages.PengumumanPage"
-             Title="PengumumanPage">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <toolkit:IsEqualConverter x:Key="IsEqualConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-    <Grid>
-        <RefreshView Command="{Binding LoadCommand}" Grid.Row="1">
+             x:Name="page"
+             BackgroundColor="WhiteSmoke"
+             Title="Informasi">
+    <Grid RowDefinitions="auto,*" Padding="5">
+        <RefreshView Grid.Row="1" Command="{Binding LoadCommand}" IsRefreshing="{Binding IsBusy}">
             <CollectionView ItemsSource="{Binding Datas}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame CornerRadius="0" Padding="10">
-                            <Grid ColumnDefinitions="*,auto" >
-                                <Label VerticalOptions="Center" Text="{Binding Persyaratan.Name}" ></Label>
-                                <HorizontalStackLayout HorizontalOptions="End" Grid.Column="1" >
-                                    <ImageButton HorizontalOptions="End"
-                                                 HeightRequest="30" IsVisible="{Binding ShowFile, Converter={StaticResource IsEqualConverter}, ConverterParameter=1}"
-                                                 Source="{Binding FileIcon}" 
-                                                 Command="{Binding Source={x:Reference page}, Path=BindingContext.UploadCommand }"  CommandParameter="{Binding .}"></ImageButton>
-                                    <CheckBox HorizontalOptions="End" IsChecked="{Binding Status}" IsVisible="{Binding ShowFile, Converter={StaticResource IsEqualConverter}, ConverterParameter=0}" ></CheckBox>
-                                </HorizontalStackLayout>
-                            </Grid>
+                        <Frame CornerRadius="5" Padding="0" Margin="3" BorderColor="Azure" >
+                            <VerticalStackLayout Padding="10" Spacing="10" Margin="5">
+                                <Label HorizontalOptions="End" Text="{Binding Tanggal}"></Label>
+                                <Label FontSize="16" Text="{Binding Judul}"></Label>
+                                <Button HorizontalOptions="End" Text="Lihat"
+                                                 HeightRequest="40" 
+                                                 Command="{Binding Source={x:Reference page},
+                                    Path=BindingContext.SelectedCommand }" 
+                                             CommandParameter="{Binding .}"></Button>
+                            </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-        <ActivityIndicator WidthRequest="50" IsRunning="{Binding IsBusy}"></ActivityIndicator>
     </Grid>
 </ContentPage>

@@ -56,6 +56,7 @@ namespace MobieApp
         {
             var userString = JsonSerializer.Serialize(response);
             Preferences.Set("Profile", userString);
+            _profile = response;
             return Task.CompletedTask;
         }
 

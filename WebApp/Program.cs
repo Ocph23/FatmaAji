@@ -15,6 +15,13 @@ using WebApp.Models;
 using WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+if (builder.Environment.IsProduction())
+{
+    builder.WebHost.UseKestrel(serverOptions =>
+    {
+        serverOptions.ListenLocalhost(5008);
+    });
+}
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -32,6 +39,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPendaftaranService, PendaftaranService>();
 builder.Services.AddScoped<IPersyaratanService,PersyaratanService>();
 builder.Services.AddScoped<IInformasiService, InformasiService>();
+builder.Services.AddScoped<IDashboarService, DashboarService>();
+builder.Services.AddScoped<IAntrianZonasiService, AntrianZonasiService>();
 
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();

@@ -1,0 +1,97 @@
+﻿@page "/laporan/penerimaan"
+@using Microsoft.EntityFrameworkCore;
+@attribute [Authorize(Roles = "Admin")]
+
+@inject ApplicationDbContext dbcontext
+@inject DialogService dialogService
+@inject NotificationService NotificationService
+@inject NavigationManager nav
+@inject IJSRuntime JS
+
+<div class="noprint">
+    <div style="display:flex;justify-content:space-between">
+        <h3 class="main-title">Data Penerimaan Siswa</h3>
+        @if (datas != null || datas.Count > 0)
+        {
+            <RadzenButton Style="padding:10px; margin-bottom:10px" Click="@(()=> JS.InvokeVoidAsync("print"))"
+                      Icon="print" Text="Cetak"
+                      ButtonStyle="ButtonStyle.Warning" />
+        }
+    </div>
+
+
+    @if (datas == null || datas.Count <= 0)
+    {
+        <RadzenAlert AllowClose=false AlertStyle="AlertStyle.Warning" Variant="Variant.Flat" Shade="Shade.Lighter">
+            Belum Ada Data Penerimaan Siswa.
+        </RadzenAlert>
+    }
+    else
+    {
+        <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false"
+                    FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                    Data="@datas"
+                    TItem="CalonPesertaDidik" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+            <Columns>
+
+                <RadzenDataGridColumn TItem="CalonPesertaDidik" Title="No" Width="70px">
+                    <Template>
+                        @(datas.IndexOf(context) + 1)
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="CalonPesertaDidik" Property="NomorPendaftaran" Width="150px" Title="NoPendaftaran" />
+                <RadzenDataGridColumn TItem="CalonPesertaDidik" Property="Nama" Title="Nama" />
+                <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="80px" Property="JenisKelamin" Title="JK" />
+                <RadzenDataGridColumn TItem="CalonPesertaDidik" Title="TTL">
+                    <Template>
+                        @($"{context.TempatLahir}, {context.TanggalLahir.Value.ToString("dd/MM/yyyy")}")
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="120px" Property="Kepercayaan" Title="Agama" />
+                <RadzenDataGridColumn TItem="CalonPesertaDidik" Title="Status" Width="100px">
+                    <Template>
+                        <RadzenIcon Icon="@(WebHelper.GetStatusIcon(context.Status))" IconStyle="@(WebHelper.GetIconColor(context.Status))" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    }
+</div>
+
+<LaporanPenerimaanReport Source="@datas" />
+
+@code {
+
+    List<CalonPesertaDidik> datas = new List<CalonPesertaDidik>();
+    RadzenDataGrid<CalonPesertaDidik> dg;
+    protected override async Task OnInitializedAsync()
+    {
+        var source = dbcontext.CalonPesertaDidik
+        .Include(x => x.Alamat)
+        .Include(x => x.Periodik)
+        .Include(x => x.Kontak)
+        .Include(x => x.Ayah)
+        .Include(x => x.Ibu).Where(x => x.Status == StatusPenerimaan.Lulus)
+        .ToList();
+        var validator = new CalonPesertaDidikValidator();
+        foreach (var item in source)
+        {
+            var validatorResult = validator.Validate(item);
+            if (validatorResult.IsValid)
+            {
+                datas.Add(item);
+            }
+        }
+    }
+
+    async Task Delete(CalonPesertaDidik model)
+    {
+        var dialog = await dialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (dialog != null && dialog.Value)
+        {
+
+        }
+    }
+
+
+}

@@ -28,14 +28,29 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<AndroidSigningKeyStore>Ocph23.keystore</AndroidSigningKeyStore>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidSigningStorePass>Sony@7777</AndroidSigningStorePass>
+	  <AndroidSigningKeyAlias>Ocph23</AndroidSigningKeyAlias>
+	  <AndroidSigningKeyPass>Sony@7777</AndroidSigningKeyPass>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidSigningStorePass>Sony@7777</AndroidSigningStorePass>
+	  <AndroidSigningKeyAlias>Ocph23</AndroidSigningKeyAlias>
+	  <AndroidSigningKeyPass>Sony@7777</AndroidSigningKeyPass>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\logotutwuri.PNG" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\logotutwuri.png" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\logotutwuri.PNG" Color="#025d96" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\logotutwuri.png" Color="#025d96" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -50,20 +65,15 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\AppIcon\logotutwuri.png" />
+	  <None Remove="Resources\Images\close.png" />
 	  <None Remove="Resources\Images\documenttext.png" />
 	  <None Remove="Resources\Images\documentupload.png" />
 	  <None Remove="Resources\Images\email.png" />
 	  <None Remove="Resources\Images\password.png" />
+	  <None Remove="Resources\Images\sync.png" />
 	  <None Remove="Resources\Images\user.png" />
+	  <None Remove="Resources\Images\zona.png" />
 	  <None Remove="Resources\Splash\logotutwuri.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiIcon Include="Resources\AppIcon\logotutwuri.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiSplashScreen Include="Resources\Splash\logotutwuri.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -86,6 +96,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\CalonSiswaPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\DetailInformasiPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\HomePage.xaml">
@@ -113,6 +126,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\StatusPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

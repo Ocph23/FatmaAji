@@ -7,33 +7,60 @@
 @inject NotificationService NotificationService
 @inject NavigationManager nav
 
-<h3>Data Calon Siswa</h3>
+<h3 class="main-title">Data Calon Siswa</h3>
 
+
+ @if (datas == null || datas.Count <= 0)
+    {
+        <RadzenAlert AllowClose=false AlertStyle="AlertStyle.Warning" Variant="Variant.Flat" Shade="Shade.Lighter">
+            Belum Ada Data Penerimaan Siswa.
+    </RadzenAlert>
+}
+else
+{
 <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false"
                 FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
                 Data="@datas"
                 TItem="CalonPesertaDidik" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
     <Columns>
+      
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Title="No" Width="70px" >
+            <Template>
+                @(datas.IndexOf(context)+1)
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Property="NomorPendaftaran" Width="150px" Title="NoPendaftaran" />
         <RadzenDataGridColumn TItem="CalonPesertaDidik" Property="Nama" Title="Nama" />
-        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="100px" Property="JenisKelamin" Title="JK" />
-        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="200px" Title="TTL">
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="80px" Property="JenisKelamin" Title="JK" />
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Title="TTL">
             <Template>
                 @($"{context.TempatLahir}, {context.TanggalLahir.Value.ToString("dd/MM/yyyy")}")
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="120px" Property="Kepercayaan" Title="Agama" />
-        <RadzenDataGridColumn TItem="CalonPesertaDidik" Property="Ayah.Nama" Title="Ayah" />
-        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="60px">
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Title="Status" Width="100px" >
             <Template>
-                <RadzenButton Click="@(()=> nav.NavigateTo($"/calon/{context.Id}"))" Icon="details" ButtonStyle="ButtonStyle.Warning" />
+                <RadzenIcon Icon="@(WebHelper.GetStatusIcon(context.Status))" IconStyle="@(WebHelper.GetIconColor(context.Status))" />
             </Template>
         </RadzenDataGridColumn>
+        
+        <RadzenDataGridColumn TItem="CalonPesertaDidik" Width="60px">
+            <Template>
+                <RadzenButton Click="@(()=> nav.NavigateTo($"/calon/{context.Id}"))"
+                              Icon="details"
+                              ButtonStyle="ButtonStyle.Warning" />
+            </Template>
+        </RadzenDataGridColumn>
+       
     </Columns>
 </RadzenDataGrid>
+}
+
+
 
 @code {
 
-    ICollection<CalonPesertaDidik> datas = new List<CalonPesertaDidik>();
+    List<CalonPesertaDidik> datas = new List<CalonPesertaDidik>();
     RadzenDataGrid<CalonPesertaDidik> dg;
     protected override async Task OnInitializedAsync()
     {

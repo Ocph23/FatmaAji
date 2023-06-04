@@ -40,7 +40,7 @@ namespace WebApp.Services
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
-
+        private readonly IPendaftaranService pendaftaranService;
         private readonly AppSettings _appSettings;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<ApplicationUser> userManager;
@@ -48,9 +48,13 @@ namespace WebApp.Services
 
         public ApplicationDbContext ApplicationDbContext { get; }
 
-        public UserService(IOptions<AppSettings> appSettings, ApplicationDbContext dbcontext, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager)
+        public UserService(IOptions<AppSettings> appSettings, ApplicationDbContext dbcontext,
+            IPendaftaranService _pendaftaranService,
+            IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> 
+            _userManager, SignInManager<ApplicationUser> _signInManager)
         {
             _context = dbcontext;
+            pendaftaranService = _pendaftaranService;
             _appSettings = appSettings.Value;
             _httpContextAccessor = httpContextAccessor;
             userManager = _userManager;
@@ -112,9 +116,7 @@ namespace WebApp.Services
                 Expires = DateTime.UtcNow.AddDays(7),
                 Issuer = issuer,
                 Audience = audience,
-                SigningCredentials = new SigningCredentials
-                (new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha512Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha512Signature)
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -136,6 +138,7 @@ namespace WebApp.Services
                 {
                     await userManager.AddToRoleAsync(user, "Pendaftar");
                     var token = await GenerateJwtToken(user);
+                    var task = pendaftaranService.CreateProfile(user.Id, model.Zonasi);
                     return new AuthenticateResponse(user.UserName, user.Email, token);
                 }
 

@@ -48,6 +48,16 @@ namespace MobieApp.Models
             set { SetProperty(ref isZonasi, value); }
         }
 
+
+        private AntrianZonasi antrianZonasi;
+
+        public AntrianZonasi Zonasi
+        {
+            get { return antrianZonasi; }
+            set {SetProperty(ref antrianZonasi , value); }
+        }
+
+
     }
 
 }

@@ -5,15 +5,13 @@
 <RadzenContextMenu/>
 <RadzenTooltip/>
 
-<PageTitle>WebApp</PageTitle>
-
-
+<PageTitle>SDN INPIRES TANJUNG RIA</PageTitle>
 <RadzenLayout >
     <RadzenHeader>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
             <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)" />
           <div style="display:flex; justify-content:space-between; width:100%; margin-right:20px">
-                <RadzenLabel Text="Header" />
+                <RadzenLabel />
                 <div style="display:flex; margin-right:20px; align-items:center">
                     <LoginDisplay />
                 </div>
@@ -28,8 +26,11 @@
             @Body
         </div>
     </RadzenBody>
-    <RadzenFooter>
-        Footer
+    <RadzenFooter Style="padding:5px">
+       <div style="display:flex; align-items:center">
+           <img src="/tutwuri.png" style="width:40px"/>
+           <h6>SDN INPRES TANJUNG RIA - JAYAPURA</h6>
+       </div>
     </RadzenFooter>
 </RadzenLayout>
 

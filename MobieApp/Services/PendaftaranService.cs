@@ -66,8 +66,9 @@ namespace MobieApp.Services
                 var response = await client.PutAsync($"{controller}", client.GenerateHttpContent(calon));
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.GetResult<bool>();
-                    return result;
+                    var result = await response.GetResult<CalonPesertaDidik>();
+                    await Account.SetProfile(result);
+                    return true;
                 }
                 throw new SystemException(await client.Error(response));
             }

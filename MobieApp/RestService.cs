@@ -58,6 +58,7 @@ namespace MobieApp
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
+                    await Account.LogOut();
                     Application.Current.MainPage = new AccountShell();
                     return $"'{response.RequestMessage.RequestUri.LocalPath}'  Anda Tidak Memiliki Akses !";
                 }

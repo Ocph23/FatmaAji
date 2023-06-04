@@ -6,13 +6,37 @@ namespace MobieApp.Services
 
     public interface IAccountService
     {
+        Task<IEnumerable<AntrianZonasi>> GetZonasi();
         Task<bool> Login(string userName, string Password);
-        Task<bool> Register(string name, string email, string Password);
+        Task<bool> Register(string name, string email, string Password, AntrianZonasi zonasi);
     }
 
     public class AccountService : IAccountService
     {
         string controller = "/api/account";
+
+        public async Task<IEnumerable<AntrianZonasi>> GetZonasi()
+        {
+            try
+            {
+                using var client = new RestService();
+                var response = await client.GetAsync($"{controller}/zonasi");
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.GetResult<IEnumerable<AntrianZonasi>>();
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+                throw new SystemException(await client.Error(response));
+            }
+            catch (Exception ex)
+            {
+                throw new SystemException(ex.Message);
+            }
+        }
+
         public async Task<bool> Login(string userName, string Password)
         {
             try
@@ -50,12 +74,12 @@ namespace MobieApp.Services
             }
         }
 
-        public async Task<bool> Register(string name, string email, string Password)
+        public async Task<bool> Register(string name, string email, string Password, AntrianZonasi zonasi)
         {
             try
             {
                 using var client = new RestService();
-                var response = await client.PostAsync($"{controller}/register", client.GenerateHttpContent(new RegisterRequest(name, email, Password)));
+                var response = await client.PostAsync($"{controller}/register", client.GenerateHttpContent(new RegisterRequest(name, email, Password, zonasi)));
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.GetResult<AuthenticateResponse>();

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobieApp.Pages.DetailInformasiPage"
+             Title="DetailInformasiPage">
+    <Grid>
+        <Frame Margin="5" BorderColor="CadetBlue">
+            <Grid RowDefinitions="auto,auto,*">
+                <ImageButton WidthRequest="30" HeightRequest="30" Margin="0" 
+                             Source="close.png" Command="{Binding KeluarCommand}" HorizontalOptions="End"></ImageButton>
+                <VerticalStackLayout Grid.Row="1">
+                    <FlexLayout JustifyContent="SpaceBetween">
+                        <Label HorizontalOptions="Start" FontSize="Small" Text="{Binding Model.Tanggal}"></Label>
+                    </FlexLayout>
+                    <Label Grid.Row="1" HorizontalOptions="Center" Margin="20" FontSize="20" 
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center" Text="{Binding Model.Judul}"></Label>
+                </VerticalStackLayout>
+                <WebView Grid.Row="2">
+                    <WebView.Source>
+                        <HtmlWebViewSource Html="{Binding IsiView}"></HtmlWebViewSource>
+                    </WebView.Source>
+                </WebView>
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>

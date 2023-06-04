@@ -3,8 +3,6 @@ namespace ShareModel
 {
     public class CalonPesertaDidik :BaseNotify
     {
-        
-
         private int id;
         private string name=string.Empty;
         private JenisKelamin jk;
@@ -174,9 +172,19 @@ namespace ShareModel
             set { SetProperty(ref persyaratan, value); }
         }
 
-        public static CalonPesertaDidik Create(string userId)
+        private AntrianZonasi zonasi;
+
+        public AntrianZonasi Zonasi
         {
-            return new CalonPesertaDidik() { UserId = userId };
+            get { return zonasi; }
+            set { zonasi = value; }
+        }
+
+        public string NomorPendaftaran => $"SDN-TR-{Id.ToString("D5")}";
+
+        public static CalonPesertaDidik Create(string userId, AntrianZonasi zona)
+        {
+            return new CalonPesertaDidik() { UserId = userId, Zonasi=zona };
         }
     }
 

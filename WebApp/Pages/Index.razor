@@ -1,13 +1,14 @@
 ﻿@page "/"
+@inject IDashboarService dashboarService
 
-<PageTitle>Index</PageTitle>
+<PageTitle>sdninprestanjungria.apspapua.com</PageTitle>
 <RadzenRow Gap="1rem" Style="padding:20px">
     <RadzenColumn>
         <RadzenCard class="rz-background-color-primary">
             <div style="display:flex;flex-direction:column">
                 <RadzenLabel class="rz-color-base-300" Text="Pendaftar" Style="font-size:20px"></RadzenLabel>
                 <div style="width:100%; text-align:right">
-                    <RadzenLabel class="align-text-bottom rz-color-base-300" Text="150" Style="font-size:50px"></RadzenLabel>
+                    <RadzenLabel class="align-text-bottom rz-color-base-300" Text="@data.TotalPendaftar.ToString()" Style="font-size:50px"></RadzenLabel>
                 </div>
             </div>
         </RadzenCard>
@@ -17,7 +18,7 @@
             <div style="display:flex;flex-direction:column">
                 <RadzenLabel class="rz-color-base-100" Text="Laki-Laki" Style="font-size:20px"></RadzenLabel>
                 <div style="width:100%; text-align:right">
-                    <RadzenLabel class="align-text-bottom rz-color-base-300" Text="150" Style="font-size:50px"></RadzenLabel>
+                    <RadzenLabel class="align-text-bottom rz-color-base-300" Text="@data.Pria.ToString()" Style="font-size:50px"></RadzenLabel>
                 </div>
             </div>
         </RadzenCard>
@@ -26,8 +27,8 @@
         <RadzenCard class="rz-background-color-success">
             <div style="display:flex;flex-direction:column">
                 <RadzenLabel class="rz-color-base-300" Text="Perempuan" Style="font-size:20px"></RadzenLabel>
-                <div style="width:100%; text-align:center">
-                    <RadzenLabel class="align-text-bottom rz-color-base-300" Text="150" Style="font-size:50px"></RadzenLabel>
+                <div style="width:100%; text-align:right">
+                    <RadzenLabel class="align-text-bottom rz-color-base-300" Text="@data.Wanita.ToString()" Style="font-size:50px"></RadzenLabel>
                 </div>
             </div>
         </RadzenCard>
@@ -40,10 +41,18 @@
             <div style="display:flex;flex-direction:column">
                 <RadzenLabel class="rz-color-base-300" Text="Total Lulus" Style="font-size:20px"></RadzenLabel>
                 <div style="width:100%; height:40vh; display:flex; justify-content:center; align-items:center">
-                    <RadzenLabel class="align-text-bottom rz-color-base-300" Text="150" Style="font-size:100px"></RadzenLabel>
+                    <RadzenLabel class="align-text-bottom rz-color-base-300" Text="@data.Lulus.ToString()" Style="font-size:100px"></RadzenLabel>
                 </div>
             </div>
         </RadzenCard>
     </RadzenColumn>
 
 </RadzenRow>
+
+@code{
+    Dashboard data;
+    protected override async Task OnInitializedAsync()
+    {
+        data = await dashboarService.GetDashboardAsync();
+    }
+}

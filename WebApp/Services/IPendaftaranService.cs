@@ -10,8 +10,8 @@ namespace WebApp.Services
         Task<IEnumerable<CalonPesertaDidik>> Get();
         Task<CalonPesertaDidik> GetById(int id);
         Task<CalonPesertaDidik> GetByUserId(string id);
-        Task<CalonPesertaDidik> CreateProfile(string userId);
-        Task<bool> UpdateProfile(CalonPesertaDidik calonPesertaDidik);
+        Task<CalonPesertaDidik> CreateProfile(string userId, AntrianZonasi zonasi);
+        Task<CalonPesertaDidik> UpdateProfile(CalonPesertaDidik calonPesertaDidik);
         Task<ItemPersyaratan> AddPersyaratan(int id, ItemPersyaratan model);
         Task<ItemPersyaratan> UpdatePersyaratan(int id, ItemPersyaratan model);
         Task<ItemPersyaratan> GetItemPersyaratan(int id);
@@ -39,14 +39,17 @@ namespace WebApp.Services
             return Task.FromResult(model!);
         }
 
-        public Task<CalonPesertaDidik> CreateProfile(string userId)
+        public Task<CalonPesertaDidik> CreateProfile(string userId, AntrianZonasi zona)
         {
-            var data = CalonPesertaDidik.Create(userId);
+            var data = CalonPesertaDidik.Create(userId, zona);
+
 
             foreach(var item in dbcontext.Persyaratan.ToList())
             {
                 data.Persyaratan.Add(new ItemPersyaratan { Persyaratan = item });
             }
+            
+            dbcontext.Entry(data.Zonasi).State = EntityState.Unchanged;  
             dbcontext.CalonPesertaDidik.Add(data);
             dbcontext.SaveChanges();
             return Task.FromResult(data);
@@ -74,10 +77,24 @@ namespace WebApp.Services
                     .Include(x => x.Ibu)
                     .Include(x => x.Ayah)
                     .Include(x => x.Kontak)
+                    .Include(x => x.Zonasi)
                     .Include(x => x.Persyaratan).ThenInclude(x=>x.Persyaratan)
                     .FirstOrDefault(x => x.UserId == userid);
+
+                if(data!=null)
+                {
+                    var persyaratans = dbcontext.Persyaratan.AsEnumerable();
+                    var result = persyaratans.Where(x => !data.Persyaratan.Any(p => p.Persyaratan.Id == x.Id));
+                    foreach (var item in result)
+                    {
+                        dbcontext.Entry(item).State = EntityState.Unchanged;
+                        data.Persyaratan.Add(new ItemPersyaratan { Persyaratan = item });
+                    }
+                    dbcontext.SaveChanges();
+                }
+
                 if (data is null)
-                    data = await CreateProfile(userid);
+                    throw new SystemException("Data Tidak Ditemukan !");
                 return data;
             }
             catch (Exception ex)
@@ -109,7 +126,7 @@ namespace WebApp.Services
             return Task.FromResult(model!);
         }
 
-        public Task<bool> UpdateProfile(CalonPesertaDidik calonPesertaDidik)
+        public Task<CalonPesertaDidik> UpdateProfile(CalonPesertaDidik calonPesertaDidik)
         {
             try
             {
@@ -119,16 +136,20 @@ namespace WebApp.Services
                     .Include(x=>x.Ibu)
                     .Include(x=>x.Ayah)
                     .Include(x=>x.Kontak)
+                    .Include(x=>x.Zonasi)
                     .FirstOrDefault(x=> x.Id == calonPesertaDidik.Id);
 
+                var status = data.Status;
+                calonPesertaDidik.Status = status;
                 dbcontext.Entry(data).CurrentValues.SetValues(calonPesertaDidik);
                 dbcontext.Entry(data.Alamat).CurrentValues.SetValues(calonPesertaDidik.Alamat);
                 dbcontext.Entry(data.Ayah).CurrentValues.SetValues(calonPesertaDidik.Ayah);
                 dbcontext.Entry(data.Ibu).CurrentValues.SetValues(calonPesertaDidik.Ibu);
                 dbcontext.Entry(data.Periodik).CurrentValues.SetValues(calonPesertaDidik.Periodik);
                 dbcontext.Entry(data.Kontak).CurrentValues.SetValues(calonPesertaDidik.Kontak);
+                dbcontext.Entry(data.Zonasi).CurrentValues.SetValues(calonPesertaDidik.Zonasi);
                 dbcontext.SaveChanges();
-                return Task.FromResult(true);   
+                return Task.FromResult(data);   
             }
             catch (Exception ex)
             {

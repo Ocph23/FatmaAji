@@ -44,5 +44,6 @@
             <Label Text="DINAS PENDIDIKAN DAN KEBUDAYAAN"  HorizontalOptions="Center"></Label>
             <Label Text="SEKOLAH DASAR NEGERI INPRES TANJUNG RIA"  HorizontalOptions="Center"></Label>
         </StackLayout>
+        <ActivityIndicator WidthRequest="45" VerticalOptions="Center" Grid.RowSpan="3" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"></ActivityIndicator>
     </Grid>
 </ContentPage>

@@ -18,6 +18,7 @@ namespace WebApp.Data
 
         public DbSet<CalonPesertaDidik> CalonPesertaDidik { get; set; }
         public DbSet<Persyaratan> Persyaratan{ get; set; }
+        public DbSet<AntrianZonasi> AntrianZonasi { get; set; }
         public DbSet<Informasi> Informasi { get; set; }
 
 

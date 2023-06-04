@@ -2,6 +2,6 @@
 {
     public enum StatusPenerimaan
     {
-        None,Terima, Tolak, Menunggu 
+        None,Lulus, TidakLulus, Menunggu 
     }
 }

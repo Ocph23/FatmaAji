@@ -1,37 +1,40 @@
 ﻿@inject DialogService dialogService
-@inject IPersyaratanService persyaratanService
+@inject IPersyaratanService informasiService
 @inject NotificationService NotificationService
 
+
+
+
 <RadzenTemplateForm TItem="Persyaratan" Data=@Model Submit=@OnSubmit InvalidSubmit=@OnInvalidSubmit>
-    <RadzenFieldset Text="Form">
+    <RadzenFieldset>
         <RadzenStack Gap="1rem">
-            <RadzenRow AlignItems="AlignItems.Center">
+            <RadzenRow AlignItems="AlignItems.Start">
                 <RadzenColumn Size="12" SizeMD="3">
-                    <RadzenLabel Text="Register" />
+                    <RadzenLabel Text="Nama Persyaratan" />
                 </RadzenColumn>
                 <RadzenColumn Size="12" SizeMD="9">
-                    <RadzenTextBox @bind-Value="Model.Name" Placeholder="Nama Persyaratan" Style="width: 100%;" Name="namaPersyaratan" />
-                    <RadzenLengthValidator Component="namaPersyaratan" Min="1" Text="Tidak Boleh Kosong" Popup=true Style="position:relative" />
+                    <RadzenTextBox @bind-Value="Model.Name" Placeholder="Nama Persyaratan" Style="width: 100%" Name="judul" />
+                    <RadzenLengthValidator Component="judul" Min="1" Text="Tidak Boleh Kosong" Popup=true Style="position: relative" />
                 </RadzenColumn>
             </RadzenRow>
-           
-            <RadzenRow AlignItems="AlignItems.Center">
+            <RadzenRow AlignItems="AlignItems.Start">
+                <RadzenColumn Size="12" SizeMD="3">
+                    <RadzenLabel Text="Upload Dokumen ? " />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="9">
+                    <RadzenCheckBox TValue="bool" @bind-Value="Model.IsUpload" Name="Dokumen" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow AlignItems="AlignItems.Start">
                 <RadzenColumn Size="12" SizeMD="3">
                     <RadzenLabel Text="Keterangan" />
                 </RadzenColumn>
                 <RadzenColumn Size="12" SizeMD="9">
-                    <RadzenTextArea @bind-Value="Model.Description" Placeholder="Keterangan" Style="width: 100%;" Name="keterangan" />
-                    <RadzenLengthValidator Component="keterangan" Min="1" Text="Tidak Boleh Kosong" Popup=true Style="position: relative" />
+                    <RadzenTextArea @bind-Value="Model.Description" Placeholder="Keterangan" Style="width: 100%" Name="keterrangan" />
+                    <RadzenLengthValidator Component="keterrangan" Min="1" Text="Tidak Boleh Kosong" Popup=true Style="position: relative" />
                 </RadzenColumn>
             </RadzenRow>
-            <RadzenRow AlignItems="AlignItems.Center">
-                <RadzenColumn Size="12" SizeMD="3">
-                    <RadzenLabel Text="Dokumen" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="9">
-                    <RadzenCheckBox TValue="bool" @bind-Value="Model.IsUpload" Name="dokumen" />
-                </RadzenColumn>
-            </RadzenRow>
+
         </RadzenStack>
     </RadzenFieldset>
     <div style="text-align:right; margin-top:20px">
@@ -52,11 +55,11 @@
         {
             if (Model.Id <= 0)
             {
-                Model = await persyaratanService.Post(model);
+                Model = await informasiService.Post(model);
             }
             else
             {
-                Model = await persyaratanService.Put(Model);
+                Model = await informasiService.Put(Model);
                 if (Model is null)
                     throw new SystemException("Data Tidak Tersimpan !");
             }

@@ -1,6 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<div class="top-row ps-3 navbar navbar-dark" style="height:auto">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">WebApp</a>
+        <div style="display:flex;justify-content:center">
+            <img src="/tutwuri.png" style="width:50%" />
+        </div>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -13,7 +15,11 @@
             <RadzenPanelMenuItem Path="/" Text="Home" Icon="home" />
             <RadzenPanelMenuItem Path="/persyaratan" Text="Persyaratan" Icon="account_box" />
             <RadzenPanelMenuItem Path="/informasi" Text="Informasi/Pengumuman" Icon="account_box" />
+            <RadzenPanelMenuItem Path="/antrian" Text="antrian" Icon="account_box" />
             <RadzenPanelMenuItem Path="/calon" Text="Calon Siswa" Icon="account_box" />
+            <RadzenPanelMenuItem Text="Laporan" Icon="report">
+                <RadzenPanelMenuItem Path="/laporan/penerimaan" Text="Penerimaan" Icon="none" />
+            </RadzenPanelMenuItem>
             <RadzenPanelMenuItem Path="/users" Text="Users" Icon="account_box" />
         </RadzenPanelMenu>
     </nav>

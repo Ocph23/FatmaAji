@@ -4,6 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    
+    
     <Style x:Key="InvalidLabelStyle" TargetType="Label">
         <Setter Property="TextColor" Value="Red" />
         <Setter Property="FontSize" Value="10" />
@@ -35,6 +37,11 @@
 
     <Style x:Key="formControl" TargetType="VerticalStackLayout">
         <Setter Property="Margin" Value="0,0,0,10"></Setter>
+    </Style>
+
+
+    <Style TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="WhiteSmoke"></Setter>
     </Style>
 
     <Style TargetType="ActivityIndicator">

@@ -2,42 +2,48 @@
 @inject IInformasiService informasiService
 @inject NotificationService NotificationService
 
-<RadzenTemplateForm TItem="Informasi" Data=@Model Submit=@OnSubmit InvalidSubmit=@OnInvalidSubmit>
-    <RadzenFieldset Text="Form">
-        <RadzenStack Gap="1rem">
-            <RadzenRow AlignItems="AlignItems.Center">
-                <RadzenColumn Size="12" SizeMD="3">
-                    <RadzenLabel Text="Tanggal" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="9">
-                    <RadzenDatePicker @bind-Value="Model.Tanggal" Placeholder="Tanggal" Style="width: 100%;" Name="namaInformasi" />
-                </RadzenColumn>
-            </RadzenRow>
-            <RadzenRow AlignItems="AlignItems.Start">
-                <RadzenColumn  Size="12" SizeMD="3">
-                    <RadzenLabel Text="Informasi/Pengumuman" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="9">
-                    <RadzenTextArea @bind-Value="Model.Pesan" Placeholder="Informasi" Style="width: 100%; min-height:150px" Name="keterangan" />
-                    <RadzenLengthValidator Component="keterangan" Min="1" Text="Tidak Boleh Kosong" Popup=true Style="position: relative" />
-                </RadzenColumn>
-            </RadzenRow>
-            <RadzenRow AlignItems="AlignItems.Center">
-                <RadzenColumn Size="12" SizeMD="3">
-                    <RadzenLabel Text="Publish" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="9">
-                    <RadzenCheckBox TValue="bool" @bind-Value="Model.Publish" Name="dokumen" />
-                </RadzenColumn>
-            </RadzenRow>
-        </RadzenStack>
-    </RadzenFieldset>
-    <div style="text-align:right; margin-top:20px">
-        <RadzenButton Text="Simpan" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Success" />
-        <RadzenButton Click=@(()=> dialogService.Close(false)) Text="Batal" ButtonStyle="ButtonStyle.Warning" />
-    </div>
 
-</RadzenTemplateForm>
+
+
+    <RadzenTemplateForm TItem="Informasi" Data=@Model Submit=@OnSubmit InvalidSubmit=@OnInvalidSubmit>
+        <RadzenFieldset Text="Form">
+            <RadzenStack Gap="1rem">
+                <RadzenRow AlignItems="AlignItems.Center">
+                    <RadzenColumn Size="12" SizeMD="3">
+                        <RadzenLabel Text="Tanggal" />
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeMD="9">
+                        <RadzenDatePicker @bind-Value="Model.Tanggal" Placeholder="Tanggal" Style="width: 100%;" Name="namaInformasi" />
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenRow AlignItems="AlignItems.Start">
+                    <RadzenColumn Size="12" SizeMD="3">
+                        <RadzenLabel Text="Judul" />
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeMD="9">
+                        <RadzenTextArea @bind-Value="Model.Judul" Placeholder="Informasi" Style="width: 100%" Name="judul" />
+                        <RadzenLengthValidator Component="judul" Min="1" Text="Tidak Boleh Kosong" Popup=true Style="position: relative" />
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenRow AlignItems="AlignItems.Start">
+                    <RadzenColumn Size="12" SizeMD="12">
+                        <RadzenHtmlEditor @bind-Value=@Model.Isi style="height: 300px;" UploadUrl="upload/image" Name="keterangan" />
+                        <RadzenLengthValidator Component="keterangan" Min="1" Text="Tidak Boleh Kosong" Popup=true Style="position: relative" />
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenRow AlignItems="AlignItems.Center">
+                    <RadzenLabel Text="Publish" />
+                    <RadzenCheckBox TValue="bool" @bind-Value="Model.Publish" Name="publish" />
+
+                </RadzenRow>
+            </RadzenStack>
+        </RadzenFieldset>
+        <div style="text-align:right; margin-top:20px">
+            <RadzenButton Text="Simpan" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Success" />
+            <RadzenButton Click=@(()=> dialogService.Close(false)) Text="Batal" ButtonStyle="ButtonStyle.Warning" />
+        </div>
+
+    </RadzenTemplateForm>
 
 @code {
 

@@ -58,11 +58,18 @@ public class LoginViewModel:BaseViewModel
 
 			await MessageHelper.ErrorAsync(ex.Message);
 		}
+		finally
+		{
+			IsBusy = false;
+		}
     }
 
     private bool LoginValidate(object arg)
     {
        if(string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
+			return false;
+
+	   if (IsBusy)
 			return false;
 	   return true;
     }

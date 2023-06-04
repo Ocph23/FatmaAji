@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MobieApp.Pages.HomePage"
              Title="Home">
-    <Grid>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="sync.png" Command="{Binding SyncProfileCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
         <VerticalStackLayout VerticalOptions="Center" Padding="20" Spacing="5">
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"></ActivityIndicator>
             <Image Source="tutwuri.png" WidthRequest="150" Margin="30"></Image>
             <StackLayout >
                 <Label Text="DINAS PENDIDIKAN DAN KEBUDAYAAN"  HorizontalOptions="Center"></Label>
@@ -14,5 +18,5 @@
                 <Label Text="APLIKASI PENDAFTARAN ONLINE"  HorizontalOptions="Center"></Label>
             </StackLayout>
         </VerticalStackLayout>
-    </Grid>
+    </ScrollView>
 </ContentPage>

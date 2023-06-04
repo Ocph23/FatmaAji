@@ -1,0 +1,93 @@
+﻿@page "/antrian"
+@attribute [Authorize(Roles = "Admin")]
+
+@inject DialogService dialogService
+@inject IAntrianZonasiService antrianZonasiService
+@inject NotificationService NotificationService
+
+<h3 class="main-title">Data Antrian Berdaskan Zonasi</h3>
+
+<div style="margin-top:20px; margin-bottom:10px">
+<RadzenButton Click=@(()=> AddAction()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
+</div>
+
+
+<RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false"
+                FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@datas"
+                TItem="AntrianZonasi" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="AntrianZonasi" Title="NO" Width="50px">
+            <Template>
+                @(datas.IndexOf(context) + 1)
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="AntrianZonasi" Property="Nama" Title="Nama AntrianZonasi" />
+        <RadzenDataGridColumn TItem="AntrianZonasi" Property="Mulai" Title="Malai" />
+        <RadzenDataGridColumn TItem="AntrianZonasi" Property="Akhir" Title="Selesai" />
+        <RadzenDataGridColumn TItem="AntrianZonasi" Width="80px">
+            <Template>
+                <RadzenButton Click=@(()=> EditAction(context)) Icon="edit" ButtonStyle="ButtonStyle.Warning" />
+                <RadzenButton Click=@(()=> Delete(context)) Icon="remove" ButtonStyle="ButtonStyle.Danger" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+
+
+    List<AntrianZonasi> datas;
+    RadzenDataGrid<AntrianZonasi> dg;
+    protected override async Task OnInitializedAsync()
+    {
+        var source = await antrianZonasiService.Get();
+        datas = source.ToList();
+    }
+
+    async Task AddAction()
+    {
+        var result = await dialogService.OpenAsync<AntrianDialog>($"AntrianZonasi Baru",
+              new Dictionary<string, object>() { { "Model", new AntrianZonasi() } },
+              new DialogOptions() { Width = "700px", Resizable = true, Draggable = true });
+
+
+        var data = result as AntrianZonasi;
+        if (data != null)
+        {
+            datas.Add(data);
+           await dg.Reload();
+        }
+
+    }
+
+    async Task EditAction(AntrianZonasi model)
+    {
+        var result = await dialogService.OpenAsync<AntrianDialog>($"Antrian Baru",
+              new Dictionary<string, object>() { { "Model", model } },
+              new DialogOptions() { Width = "700px", Resizable = true, Draggable = true });
+        var data = result as AntrianZonasi;
+        if (data != null)
+        {
+            await dg.Reload();
+        }
+
+    }
+
+    async Task Delete(AntrianZonasi model)
+    {
+        var dialog = await dialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (dialog!=null && dialog.Value)
+        {
+            var deleted = await antrianZonasiService.Delete(model.Id);
+            if(deleted)
+            {
+                datas.Remove(model);
+                NotificationService.Notify(new NotificationMessage { Summary = "Succes", Detail = "Data Berhasil Dihapus", Severity = NotificationSeverity.Success });
+               await dg.Reload();
+            }
+        }
+    }
+
+
+}

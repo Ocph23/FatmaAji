@@ -9,7 +9,8 @@ namespace MobieApp
 {
     public class Helper
     {
-        public static string Url { get; internal set; } = "https://z8xrt027-7113.asse.devtunnels.ms/";
+        public static string Url { get; internal set; } = "https://sdninprestanjungria.apspapua.com/";
+        //public static string Url { get; internal set; } = "https://pw8m897k-7113.asse.devtunnels.ms/";
         public static JsonSerializerOptions JsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true

@@ -35,12 +35,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Pages\PersyaratanDialog.razor">
+    <Content Update="Pages\AntrianDialog.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Pages\PersyaratanPage.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\upload\images\" />
   </ItemGroup>
 
 </Project>

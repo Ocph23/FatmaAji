@@ -1,0 +1,66 @@
+﻿@inject DialogService dialogService
+@inject IPersyaratanService persyaratanService
+@inject NotificationService NotificationService
+@inject ApplicationDbContext dbcontext
+
+<RadzenTemplateForm TItem="CalonPesertaDidik" Data=@Model Submit=@OnSubmit InvalidSubmit=@OnInvalidSubmit>
+    <RadzenFieldset >
+        <RadzenStack Gap="1rem">
+            <RadzenRow AlignItems="AlignItems.Center">
+                <RadzenColumn Size="12" SizeMD="4">
+                    <RadzenLabel Text="Status Penerimaan" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenDropDown Style="width:100%" TValue="StatusPenerimaan" Data="Statuses" @bind-Value="Status"/>
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenStack>
+    </RadzenFieldset>
+    <div style="text-align:right; margin-top:20px">
+        <RadzenButton Text="Simpan" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Success" />
+        <RadzenButton Click=@(()=> dialogService.Close(false)) Text="Batal" ButtonStyle="ButtonStyle.Warning" />
+    </div>
+
+</RadzenTemplateForm>
+
+@code {
+
+    [Parameter]
+    public CalonPesertaDidik Model { get; set; }
+
+    StatusPenerimaan Status;
+
+    IEnumerable<StatusPenerimaan> Statuses= Enum.GetValues(typeof(StatusPenerimaan)).Cast<StatusPenerimaan>();
+
+    protected override Task OnInitializedAsync()
+    {
+        Status = Model.Status;
+        return Task.CompletedTask;
+    }
+
+    Task OnSubmit(CalonPesertaDidik model)
+    {
+        try
+        {
+            var notVerifyPersyaratan = Model.Persyaratan.Count(x => !x.Verifikasi);
+            if (notVerifyPersyaratan > 0)
+                throw new SystemException("Silahkan Verifikasi Semua Persyaratan");
+
+
+            Model.Status = Status;
+            dbcontext.SaveChanges();  
+            NotificationService.Notify(new NotificationMessage { Summary = "Success", Detail = "Berhasil !", Severity = NotificationSeverity.Success, Duration = 3000 });
+            dialogService.Close(Model);
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage { Summary = "Error", Detail = ex.Message, Severity = NotificationSeverity.Error, Duration = 3000 });
+        }
+        return Task.CompletedTask;
+    }
+
+    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
+    {
+
+    }
+}

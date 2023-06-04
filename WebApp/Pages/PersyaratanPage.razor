@@ -5,8 +5,7 @@
 @inject IPersyaratanService persyaratanService
 @inject NotificationService NotificationService
 
-<h3>Data Persyaratan</h3>
-
+<h3 class="main-title">Data Persyaratan</h3>
 
 <div style="margin-top:20px; margin-bottom:10px">
 <RadzenButton Click=@(()=> AddAction()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
@@ -18,6 +17,11 @@
                 Data="@datas"
                 TItem="Persyaratan" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
     <Columns>
+        <RadzenDataGridColumn TItem="Persyaratan" Title="NO" Width="50px">
+            <Template>
+                @(datas.IndexOf(context) + 1)
+            </Template>
+        </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="Persyaratan" Property="Name" Title="Nama Persyaratan" />
         <RadzenDataGridColumn TItem="Persyaratan" Title="Dokumen" Width="100px">
             <Template>
@@ -27,7 +31,7 @@
         <RadzenDataGridColumn TItem="Persyaratan" Property="Description" Title="Keterangan" />
         <RadzenDataGridColumn TItem="Persyaratan" Width="80px">
             <Template>
-                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Warning" />
+                <RadzenButton Click=@(()=> Edit(context)) Icon="edit" ButtonStyle="ButtonStyle.Warning" />
                 <RadzenButton Click=@(()=> Delete(context)) Icon="remove" ButtonStyle="ButtonStyle.Danger" />
             </Template>
         </RadzenDataGridColumn>
@@ -37,7 +41,7 @@
 @code {
 
 
-    ICollection<Persyaratan> datas;
+    List<Persyaratan> datas;
     RadzenDataGrid<Persyaratan> dg;
     protected override async Task OnInitializedAsync()
     {
@@ -59,6 +63,20 @@
            await dg.Reload();
         }
 
+    }
+
+
+    async Task Edit(Persyaratan model)
+    {
+        var result = await dialogService.OpenAsync<PersyaratanDialog>($"Edit Persyaratan",
+              new Dictionary<string, object>() { { "Model", model } },
+              new DialogOptions() { Width = "800px", Resizable = true, Draggable = true });
+
+        var data = result as Informasi;
+        if (data != null)
+        {
+            await dg.Reload();
+        }
     }
 
 

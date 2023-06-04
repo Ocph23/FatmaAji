@@ -53,6 +53,7 @@ public class CalonSiswaViewModel : BaseViewModel
         ModaTransportasiSelected = ModaTransportasis.SingleOrDefault(x => x.Value == Model.ModaTransportasi);
         SaveCoomand = new Command(SaveAction, SaveValidate);
         Model.PropertyChanged += Model_PropertyChanged;
+        SaveCoomand.ChangeCanExecute();
 
 
     }
@@ -85,6 +86,7 @@ public class CalonSiswaViewModel : BaseViewModel
             {
                 var updated = await PendaftaranStore.Update(Model);
                 await MessageHelper.InfoAsync("Data Berhasil Dikirim !");
+               await Application.Current.MainPage.Navigation.PushAsync(new HomePage());
                 return;
             }
             await MessageHelper.InfoAsync("Lengkapi Data !");

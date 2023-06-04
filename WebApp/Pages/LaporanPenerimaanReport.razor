@@ -1,0 +1,59 @@
+﻿<div class="justprint">
+    @if(Source!=null && Source.Count() > 0)
+    {
+        <div style="display:flex;justify-content:space-between; margin-bottom:20px;align-items:center">
+            <img style="width:50px;height:50px" src="/logokotajayapura.webp">
+            <div style="text-align:center; display:flex;flex-direction:column">
+                <label>PEMERINTAH KOTA JAYAPURA</label>
+                <label>DINAS PENDIDIKAN DAN KEBUDAYAAN</label>
+                <label>SEKOLAH DASAR NEGERI INPRES TANJUNG RIA</label>
+                <label style="font-size:10px;font-style:italic">Jln. Kayu Batu No 16 Tanjung Ria, Jayapura Utara - Papua | telp. (0967) 542614 Kode Pos. 99117</label>
+                <label style="font-size:10px;font-style:italic">Email:tanjungria568@gmail.com/Website : sdninprestanjungria.id</label>
+            </div>
+            <img style="width:50px;height:50px" src="/tutwuri.png" />
+        </div>
+
+        <table>
+            <tr>
+                <th>No</th>
+                <th>No Pendaftara</th>
+                <th>Nama</th>
+                <th>JK</th>
+                <th>TTL</th>
+                <th>Agama</th>
+                <th>Alamat</th>
+                <th>RT/RW</th>
+                <th>Kelurahan</th>
+                <th>Kecamatan</th>
+                <th>Jenis Tinggal</th>
+            </tr>
+            @foreach (var item in Source.Cast<CalonPesertaDidik>().Select((r, i) =>  new { Data = r, Index = i }))
+            {
+                <tr>
+                    <td>@(item.Index+1)</td>
+                    <td>@item.Data.NomorPendaftaran</td>
+                    <td>@item.Data.Nama</td>
+                    <td>@item.Data.JenisKelamin</td>
+                    <td>@($"{item.Data.TempatLahir}, {item.Data.TanggalLahir.Value.ToString("dd/MM/yyyy")}")</td>
+                    <td>@Helper.AddWhiteSpaceInTitleCase(item.Data.Kepercayaan.ToString())</td>
+                    <td>@item.Data.Alamat.Jalan</td>
+                    <td>@($"{item.Data.Alamat.RT}/{item.Data.Alamat.RW}")</td>
+                    <td>@item.Data.Alamat.Keluarahan</td>
+                    <td>@item.Data.Alamat.Kecamatan</td>
+                    <td>@(item.Data.TempatTinggal != TempatTinggal.Lainnya ? 
+                        Helper.AddWhiteSpaceInTitleCase(item.Data.TempatTinggal.ToString()) :
+                        item.Data.TempatTinggalLain)</td>
+                </tr>
+
+            }
+        </table>
+    }
+</div>
+@code {
+
+    [Parameter]
+    public IEnumerable<CalonPesertaDidik> Source { get; set; }
+
+
+
+}

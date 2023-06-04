@@ -11,7 +11,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <Grid>
-        <RefreshView Command="{Binding LoadCommand}" Grid.Row="1">
+        <RefreshView Command="{Binding LoadCommand}">
             <CollectionView ItemsSource="{Binding Datas}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -31,6 +31,6 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-        <ActivityIndicator WidthRequest="50" IsRunning="{Binding IsBusy}"></ActivityIndicator>
+        <ActivityIndicator WidthRequest="50" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"></ActivityIndicator>
     </Grid>
 </ContentPage>
