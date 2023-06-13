@@ -16,7 +16,7 @@
             <Label FontSize="18" HorizontalOptions="Center">TAHUN AJARAN 2022/2023</Label>
             <Label Margin="0,20,0,20" FontSize="18" HorizontalOptions="Center">Dengan ini kami menyatakan bahwa :</Label>
             <Label FontSize="18" HorizontalOptions="Center" Text="{Binding Status}"></Label>
-            <StackLayout Margin="0,50" IsVisible="{Binding ShowZonasi}">
+            <StackLayout Margin="0,60" IsVisible="{Binding ShowZonasi}">
                 <Label  FontSize="14" HorizontalOptions="Center">Silahkan Melakukan Pengumpulan Berkas</Label>
                 <Label FontSize="14" HorizontalOptions="Center">
                     <Label.FormattedText>
