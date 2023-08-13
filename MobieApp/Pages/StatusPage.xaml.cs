@@ -13,8 +13,20 @@ public partial class StatusPage : ContentPage, INotifyPropertyChanged
 		
 		if(Account.Profile !=null)
 		{
-			Status = Account.Profile.Status== ShareModel.StatusPenerimaan.Lulus?"LULUS/DITERIMA":"GAGAL/TIDAK DITERIMA";
-			StatusColor = Account.Profile.Status == ShareModel.StatusPenerimaan.Lulus ? Colors.Green : Colors.OrangeRed;
+			Status = Account.Profile.Status switch
+			{
+				StatusPenerimaan.Lulus => "LULUS/DITERIMA",
+				StatusPenerimaan.TidakLulus => "GAGAL / TIDAK DITERIMA",
+				StatusPenerimaan.Menunggu => "MENUNGGU / DALAM PROSES",
+				_ => "TIDAK ADA PENGUMUMAN"
+			};
+			StatusColor = Account.Profile.Status switch
+			{
+				StatusPenerimaan.Lulus => Colors.Green,
+				StatusPenerimaan.TidakLulus => Colors.Red,
+				StatusPenerimaan.Menunggu => Colors.Goldenrod,
+				_ => Colors.White
+			};
 			Zona = Account.Profile.Zonasi;
 			ShowZonasi = Account.Profile.Status == ShareModel.StatusPenerimaan.Lulus ? true : false;
 

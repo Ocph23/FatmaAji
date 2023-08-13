@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MobieApp.Pages.StatusPage"
-             Title="Pengumuman">
+             Title="Pengumuman" >
     <ContentPage.Resources>
         <Style TargetType="{x:Type Label}">
             <Setter Property="TextColor" Value="{Binding StatusColor}"></Setter>
@@ -11,23 +11,25 @@
     </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-            <Label Margin="0,20" FontSize="30" HorizontalOptions="Center">PENGUMUMAN</Label>
-            <Label FontSize="18" HorizontalOptions="Center">HASIL SELEKSI PENERIMAAN SISWA BARU</Label>
-            <Label FontSize="18" HorizontalOptions="Center">TAHUN AJARAN 2022/2023</Label>
-            <Label Margin="0,20,0,20" FontSize="18" HorizontalOptions="Center">Dengan ini kami menyatakan bahwa :</Label>
-            <Label FontSize="18" HorizontalOptions="Center" Text="{Binding Status}"></Label>
-            <StackLayout Margin="0,60" IsVisible="{Binding ShowZonasi}">
-                <Label  FontSize="14" HorizontalOptions="Center">Silahkan Melakukan Pengumpulan Berkas</Label>
-                <Label FontSize="14" HorizontalOptions="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="{Binding Zona.Mulai, StringFormat='{0:dd/MM/yyyy HH:mm}'}"></Span>
-                            <Span Text=" - "></Span>
-                            <Span Text="{Binding Zona.Akhir, StringFormat='{0:dd/MM/yyyy HH:mm}'}"></Span>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </StackLayout>
+            <FlexLayout JustifyContent="Center" AlignItems="Center" Direction="Column">
+                <Label Margin="0,20" FontSize="Header" Text="PENGUMUMAN"></Label>
+                <Label FontSize="Default" Text="HASIL SELEKSI PENERIMAAN SISWA BARU"></Label>
+                <Label FontSize="Default" Text="TAHUN AJARAN 2022/2023"></Label>
+                <Label Margin="0,20,0,20" Text="Dengan ini kami menyatakan bahwa :"></Label>
+                <Label FontSize="Medium" Text="{Binding Status}"></Label>
+                <StackLayout Margin="0,60" IsVisible="{Binding ShowZonasi}">
+                    <Label Text="Silahkan Melakukan Pengumpulan Berkas"></Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Zona.Mulai, StringFormat='{0:dd/MM/yyyy HH:mm}'}"></Span>
+                                <Span Text=" - "></Span>
+                                <Span Text="{Binding Zona.Akhir, StringFormat='{0:dd/MM/yyyy HH:mm}'}"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </FlexLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
